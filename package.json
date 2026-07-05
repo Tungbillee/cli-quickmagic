@@ -1,0 +1,29 @@
+{
+  "name": "quickmagic-cli",
+  "version": "1.0.0",
+  "description": "Quick Magic CLI — tạo ảnh/video AI qua REST API với OAuth PKCE",
+  "bin": {
+    "quickmagic": "src/index.js",
+    "qm": "src/index.js"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "check": "node --check src/index.js"
+  },
+  "keywords": [
+    "quickmagic",
+    "ai",
+    "cli",
+    "image",
+    "video",
+    "oauth"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "commander": "^12",
+    "open": "^8.4.2"
+  }
+}
