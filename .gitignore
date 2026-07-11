@@ -1,5 +1,19 @@
+# Dependencies
 node_modules/
+
+# Env & secrets (KHÔNG commit key/token)
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+
+# Logs & OS
 *.log
-npm-debug.log*
 .DS_Store
-out/
+
+# Auth token cache (CLI login lưu token local)
+.qm-auth.json
+.qmrc
