@@ -44,7 +44,7 @@ hiện dù đã lên gói).
 **Cách A — dùng `gh` (đã đăng nhập sẵn tài khoản `Tungbillee`):**
 
 ```bash
-cd "/Users/tungpc/Documents/BDLCD/electron 2025/quick-magic-new/cli-quickmagic"
+cd /path/to/cli-quickmagic   # thư mục local đang chứa file PUBLISH.md này
 gh repo create Tungbillee/cli-quickmagic --public --source=. --remote=origin \
   --description "Quick Magic CLI — generate AI images/videos, product photoshoots, hook videos and more via OAuth PKCE"
 git push -u origin main
@@ -57,7 +57,7 @@ git push -u origin main
    3 file này, tick vào sẽ tạo conflict khi push) → Create repository.
 2. Gán remote + push:
    ```bash
-   cd "/Users/tungpc/Documents/BDLCD/electron 2025/quick-magic-new/cli-quickmagic"
+   cd /path/to/cli-quickmagic
    git remote add origin https://github.com/Tungbillee/cli-quickmagic.git
    git push -u origin main
    ```
@@ -79,7 +79,7 @@ npm login   # nếu chưa đăng nhập máy này
 lúc chuẩn bị và lúc bạn bấm publish):
 
 ```bash
-cd "/Users/tungpc/Documents/BDLCD/electron 2025/quick-magic-new/cli-quickmagic"
+cd /path/to/cli-quickmagic
 npm view quickmagic-cli        # PHẢI báo lỗi 404 (tên còn trống)
 npm pack --dry-run             # soát lại danh sách file — đối chiếu với báo cáo agent đã gửi
 ```
