@@ -5,15 +5,23 @@ node_modules/
 .env
 .env.*
 !.env.example
+.npmrc
 
-# Build output
+# Build / pack output
 dist/
 build/
+out/
+*.tgz
 
 # Logs & OS
 *.log
 .DS_Store
 
-# Auth token cache (CLI login lưu token local)
+# Auth token cache (CLI login lưu token local — thực tế nằm ở ~/.quickmagic/, giữ để phòng hờ)
 .qm-auth.json
 .qmrc
+
+# Editor / agent tool local state (không phải mã nguồn phát hành)
+.claude/
+.vscode/
+.idea/

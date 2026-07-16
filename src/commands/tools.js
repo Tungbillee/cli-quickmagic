@@ -1,4 +1,4 @@
-// tools.js — lệnh CLI cho 14 tool mở rộng (gọi REST /public/v1 qua api.call). In kết quả JSON gọn.
+// tools.js — lệnh CLI cho 17 tool mở rộng (gọi REST /public/v1 qua api.call). In kết quả JSON gọn.
 const { call } = require('../api');
 
 const out = (data) => console.log(JSON.stringify(data, null, 2));
@@ -33,4 +33,9 @@ const subtitle = run(async (video_url, o) => jobHint(await call('POST', '/subtit
 const split = run(async (video_url, o) => jobHint(await call('POST', '/split', { body: { video_url, clip_mode: o.mode, title_lang: o.titleLang, translate_lang: o.translate, client_request_id: o.crid } })));
 const motion = run(async (video_url, o) => jobHint(await call('POST', '/motion', { body: { video_url, image_urls: o.image || [], model: o.model, mode: o.mode, prompt: o.prompt, client_request_id: o.crid } })));
 
-module.exports = { scrape, importSocial, assets, analyze, marketingModes, marketingVideo, product, fashion, edit, tryon, stt, subtitle, split, motion };
+// ── Cutout / Hook Studio ──
+const cutout = run(async (o) => jobHint(await call('POST', '/cutout', { body: { operation: o.operation, ref_image_urls: o.ref || [], prompt: o.prompt, model: o.model, aspect_ratio: o.aspectRatio, quality: o.quality, num_images: o.n ? Number(o.n) : undefined, transparent_bg: o.transparentBg, client_request_id: o.crid } })));
+const hookPresets = run(async () => out(await call('GET', '/hook/presets')));
+const hookVideo = run(async (o) => jobHint(await call('POST', '/hook/videos', { body: { preset_id: o.preset, character_url: o.character, product_url: o.product, aspect: o.aspect, speech_lang: o.speechLang, custom_cta: o.cta, location_url: o.location, accessory_url: o.accessory, style: o.style, format: o.format, resolution: o.resolution, client_request_id: o.crid } })));
+
+module.exports = { scrape, importSocial, assets, analyze, marketingModes, marketingVideo, product, fashion, edit, tryon, stt, subtitle, split, motion, cutout, hookPresets, hookVideo };

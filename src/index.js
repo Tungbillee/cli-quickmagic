@@ -48,7 +48,8 @@ gen_cmd
   .option('--duration <d>', 'Thời lượng (giây)')
   .option('--resolution <r>', 'Độ phân giải (vd 720p, 1080p)')
   .option('--aspect-ratio <r>', 'Tỉ lệ khung')
-  .option('--image <i...>', 'Ảnh đầu vào (URL hoặc file local, lặp nhiều lần)')
+  .option('--image <i...>', 'Ảnh đầu vào (URL hoặc file local, lặp nhiều lần — max theo model+mode, xem qm models)')
+  .option('--mode <m>', 'Chế độ ảnh: reference (nhiều ảnh tham chiếu) | frames (khung đầu/cuối, max 2). Seedance 2.x KHÔNG nhận ảnh người thật ở MỌI chế độ (xem qm models --type video)')
   .option('--wait', 'Chờ tới khi job hoàn tất')
   .option('--out <dir>', 'Thư mục lưu kết quả (dùng kèm --wait)')
   .action(generate.video);
@@ -122,6 +123,38 @@ program.command('split <video_url>').description('Cắt video dài → clip ng�
 program.command('motion <video_url>').description('Áp chuyển động video vào ảnh (Kling)')
   .requiredOption('--image <url...>', 'Ảnh áp motion (1-20)')
   .option('--model <m>').option('--mode <m>', 'standard|professional').option('--prompt <p>').option('--crid <id>').action(tools.motion);
+
+// ── Cutout Studio ────────────────────────────────────────────────────────────
+program.command('cutout').description('Tách nền / tạo ảnh cutout trong suốt (PNG)')
+  .option('--operation <o>', 'generate|from_ref|remix_describe', 'from_ref')
+  .option('--ref <r...>', 'Ảnh tham chiếu (URL hoặc data:base64, tối đa 5, lặp nhiều lần)')
+  .option('--prompt <p>', 'Mô tả ảnh (bắt buộc khi --operation generate)')
+  .option('--model <m>', 'Model (xem qm models --type image)', 'nano-banana-2')
+  .option('--aspect-ratio <r>').option('--quality <q>')
+  .option('--n <n>', 'Số ảnh', '1')
+  .option('--no-transparent-bg', 'Giữ nguyên nền gốc (chỉ operation=remix_describe)')
+  .option('--crid <id>', 'client_request_id')
+  .action(tools.cutout);
+
+// ── Hook Studio ──────────────────────────────────────────────────────────────
+const hook_cmd = program.command('hook').description('Hook Studio — video quảng cáo hài từ ảnh nhân vật + sản phẩm');
+hook_cmd.command('presets').description('Liệt kê preset + option hợp lệ + giá').action(tools.hookPresets);
+hook_cmd
+  .command('video')
+  .description('Tạo video hook (tốn credit theo preset)')
+  .requiredOption('--preset <id>', 'preset_id (xem hook presets)')
+  .requiredOption('--character <img>', 'Ảnh nhân vật (URL hoặc data:base64)')
+  .requiredOption('--product <img>', 'Ảnh sản phẩm (URL hoặc data:base64)')
+  .option('--aspect <r>', '9:16|16:9', '9:16')
+  .option('--speech-lang <l>', 'Ngôn ngữ thoại (xem hook presets speech_lang_options)', 'vi')
+  .option('--cta <s>', 'Call-to-action tuỳ chỉnh')
+  .option('--location <img>', 'Ảnh bối cảnh (tuỳ chọn)')
+  .option('--accessory <img>', 'Ảnh phụ kiện (tuỳ chọn)')
+  .option('--style <s>', 'Phong cách hài (xem hook presets style_options)')
+  .option('--format <f>', 'Định dạng (xem hook presets format_options)')
+  .option('--resolution <r>', '720p|1080p')
+  .option('--crid <id>', 'client_request_id')
+  .action(tools.hookVideo);
 
 program.parseAsync(process.argv).catch((e) => {
   console.error('Lỗi:', e.message);

@@ -56,6 +56,8 @@ async function video(options) {
   if (options.resolution) body.resolution = options.resolution;
   if (options.aspectRatio) body.aspect_ratio = options.aspectRatio;
   if (image_urls.length) body.image_urls = image_urls;
+  // --mode reference|frames (R2V 260706): server validate theo model; bỏ trống = default model.
+  if (options.mode) body.image_mode = options.mode;
 
   const data = await api.call('POST', '/videos', { body });
   const job_id = data.job_id;
