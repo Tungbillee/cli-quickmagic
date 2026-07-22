@@ -14,7 +14,7 @@ const collect = (v, acc) => { acc.push(v); return acc; };
 program
   .name('quickmagic')
   .description('Quick Magic CLI — tạo ảnh/video AI qua REST API (OAuth PKCE)')
-  .version('1.0.0');
+  .version(require('../package.json').version);
 
 // ── auth ─────────────────────────────────────────────────────────────────────
 const auth_cmd = program.command('auth').description('Đăng nhập / đăng xuất / trạng thái');
