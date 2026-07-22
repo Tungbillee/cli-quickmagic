@@ -63,10 +63,10 @@ holds credit immediately.
 | `qm generate image` | `--prompt <p>` | `--model <m>` (default `qimi_3`), `--quality <q>`, `--aspect-ratio <r>`, `--n <n>` (default 1), `--ref <r...>` (repeatable — URL or local file path), `--wait`, `--out <dir>` |
 | `qm generate video` | `--prompt <p>`, `--model <m>` | `--duration <d>`, `--resolution <r>`, `--aspect-ratio <r>`, `--image <i...>` (repeatable), `--mode reference\|frames`, `--wait`, `--out <dir>` |
 
-- `--ref` / `--image` accept a URL (kept as-is) or a local file path (read + base64
-  encoded automatically). Files over ~8MB print a warning — prefer URLs (`qm scrape
-  <url>` or `qm import <url>` can produce a hosted URL from a product page or a
-  TikTok/Instagram post).
+- `--ref` / `--image` accept a URL (kept as-is) or a local file path — files are
+  UPLOADED automatically to Quick Magic storage (presigned, full original quality)
+  and the resulting file_url is used; tiny images ≤64KB are inlined. URLs from
+  `qm scrape <url>` / `qm import <url>` also work directly.
 - `--mode frames` caps at 2 images (first/last frame); `--mode reference` allows
   more (see the `IMAGES` column). A wrong count is rejected server-side.
 

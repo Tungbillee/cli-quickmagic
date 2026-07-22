@@ -1,6 +1,6 @@
 {
   "name": "quickmagic-cli",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Quick Magic CLI — generate AI images/videos, product photoshoots, virtual try-on, hook ad videos, subtitles and more via the Quick Magic REST API, with browser-based OAuth PKCE login (no API keys to manage). Ships with 8 Claude Agent Skills and an MCP server integration.",
   "bin": {
     "quickmagic": "src/index.js",
