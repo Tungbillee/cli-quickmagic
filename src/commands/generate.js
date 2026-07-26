@@ -2,7 +2,7 @@
 // upload presigned (>64KB) hoặc base64 nhỏ — xem src/media.js [260722].
 const api = require('../api');
 const jobs = require('./jobs');
-const { resolveMediaInputs } = require('../media');
+const { resolveMediaInput, resolveMediaInputs } = require('../media');
 
 // generate image — POST /public/v1/images.
 async function image(options) {
@@ -31,6 +31,15 @@ async function video(options) {
   if (image_urls.length) body.image_urls = image_urls;
   // --mode reference|frames (R2V 260706): server validate theo model; bỏ trống = default model.
   if (options.mode) body.image_mode = options.mode;
+  // --video-ref (v2v 260723): file local tự upload presigned → URL host QM; server probe duration
+  // + validate (chỉ seedance-2-0/-fast, max 15s, không mix ảnh, giá hạng with-video).
+  if (options.videoRef) body.video_ref_url = await resolveMediaInput(options.videoRef);
+  // [260726] 4 tham số nâng cao — server đã nhận sẵn, CLI chỉ chưa mở.
+  // --no-audio: commander set options.audio = false; mặc định undefined (giữ default của model).
+  if (Number.isInteger(options.seed)) body.seed = options.seed;
+  if (options.negative) body.negative_prompt = options.negative;
+  if (options.cameraFixed) body.camera_fixed = true;
+  if (options.audio === false) body.audio = false;
 
   const data = await api.call('POST', '/videos', { body });
   const job_id = data.job_id;

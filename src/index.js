@@ -4,6 +4,7 @@ const { program } = require('commander');
 
 const auth = require('./commands/auth');
 const generate = require('./commands/generate');
+const elements = require('./commands/elements');
 const jobs = require('./commands/jobs');
 const models = require('./commands/models');
 const credits = require('./commands/credits');
@@ -50,9 +51,32 @@ gen_cmd
   .option('--aspect-ratio <r>', 'Tỉ lệ khung')
   .option('--image <i...>', 'Ảnh đầu vào (URL hoặc file local, lặp nhiều lần — max theo model+mode, xem qm models)')
   .option('--mode <m>', 'Chế độ ảnh: reference (nhiều ảnh tham chiếu) | frames (khung đầu/cuối, max 2). Seedance 2.x KHÔNG nhận ảnh người thật ở MỌI chế độ (xem qm models --type video)')
+  .option('--video-ref <v>', 'Video tham chiếu (URL hoặc file local, max 15s/100MB) — CHỈ model supports_video_ref (seedance-2-0/-fast). Giá = rate with-video × (giây output + giây video); không dùng chung với --image')
+  .option('--seed <n>', 'Seed cố định — cùng seed + cùng prompt cho kết quả LẶP LẠI được (giữ nhất quán khi render nhiều cảnh)', parseInt)
+  .option('--negative <p>', 'Mô tả thứ KHÔNG muốn xuất hiện (watermark, chữ, tay thừa…) — model nào không hỗ trợ thì bỏ qua')
+  .option('--camera-fixed', 'Khoá máy quay đứng yên (không pan/zoom) — hợp cảnh xoay sản phẩm')
+  .option('--no-audio', 'Tắt tiếng (không đổi giá)')
   .option('--wait', 'Chờ tới khi job hoàn tất')
   .option('--out <dir>', 'Thư mục lưu kết quả (dùng kèm --wait)')
   .action(generate.video);
+
+// ── elements ─────────────────────────────────────────────────────────────────
+// [260726] Thư viện element tái dùng: `@tag` trong prompt → BE dịch thành "Image N (mô tả)".
+const elements_cmd = program.command('elements').description('Thư viện element tái dùng (@tag trong prompt)');
+elements_cmd
+  .command('list')
+  .description('Liệt kê element + tag để trỏ trong prompt')
+  .option('--limit <n>', 'Số lượng tối đa (mặc định 50)')
+  .action(elements.list);
+elements_cmd
+  .command('create')
+  .description('Lưu 1 ảnh thành element tái dùng')
+  .requiredOption('--name <n>', 'Tên element, vd "Áo dài đỏ" (tag tự sinh từ tên)')
+  .requiredOption('--image <i>', 'Ảnh (URL hoặc file local — tự upload)')
+  .option('--desc <d>', 'Mô tả chi tiết — CHÍNH là thứ được chèn kèm ảnh vào prompt, viết càng rõ càng giữ được nhân vật')
+  .option('--category <c>', 'character | location | prop | product | style | other')
+  .option('--type <t>', 'image (mặc định) | video')
+  .action(elements.create);
 
 // ── jobs ─────────────────────────────────────────────────────────────────────
 const jobs_cmd = program.command('jobs').description('Theo dõi job');
