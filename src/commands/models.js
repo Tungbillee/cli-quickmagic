@@ -39,7 +39,10 @@ async function list(options) {
     console.log(`${r.key.padEnd(key_w)}  ${r.label.padEnd(label_w)}  ${r.credit.padEnd(credit_w)}${is_video ? `  ${r.images}` : ''}`);
   }
   if (is_video && rows.some((r) => r.images.includes('*'))) {
-    console.log('\n* KHÔNG nhận ảnh chứa người thật (gửi vào sẽ lỗi) — dùng gemini-omni / seedance 1.x / wan-2-7 cho ảnh người.');
+    console.log('\n* KHÔNG nhận ảnh người upload/từ ngoài (gửi vào sẽ lỗi, không mất credit).');
+    console.log('  Muốn có nhân vật với model *: tạo ảnh bằng "qm generate image -m seedream-5.0-pro" ngay trong Quick Magic');
+    console.log('  rồi dùng ảnh đó (provider chấp nhận ảnh thuần Seedream 5.0 Pro — đã probe thật 260808).');
+    console.log('  Hoặc dùng model không dấu *: gemini-omni / wan-3-0 / wan-2-7 / seedance 1.x nhận ảnh người trực tiếp.');
   }
 }
 

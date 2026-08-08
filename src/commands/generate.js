@@ -32,7 +32,8 @@ async function video(options) {
   // --mode reference|frames (R2V 260706): server validate theo model; bỏ trống = default model.
   if (options.mode) body.image_mode = options.mode;
   // --video-ref (v2v 260723): file local tự upload presigned → URL host QM; server probe duration
-  // + validate (chỉ seedance-2-0/-fast, max 15s, không mix ảnh, giá hạng with-video).
+  // + validate theo cờ supports_video_ref per-model trong registry (260808: seedance-2-0/-fast/-2-5;
+  // danh sách ĐỘNG phía server — CLI không giữ list cứng), không mix ảnh, giá hạng with-video.
   if (options.videoRef) body.video_ref_url = await resolveMediaInput(options.videoRef);
   // [260726] 4 tham số nâng cao — server đã nhận sẵn, CLI chỉ chưa mở.
   // --no-audio: commander set options.audio = false; mặc định undefined (giữ default của model).
