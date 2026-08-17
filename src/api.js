@@ -69,7 +69,9 @@ async function call(method, rest_path, { body } = {}) {
 
   const json = await res.json().catch(() => ({}));
   if (!res.ok || json.success === false) {
-    throw new Error(json.message || `HTTP ${res.status}`);
+    const err = new Error(json.message || `HTTP ${res.status}`);
+    err.code = json.code; // [plans/260817-2339 P4] giữ code REST để lệnh gọi phía trên in "Lỗi [code]: message"
+    throw err;
   }
   return json.data;
 }

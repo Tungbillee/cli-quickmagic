@@ -9,6 +9,7 @@ const jobs = require('./commands/jobs');
 const models = require('./commands/models');
 const credits = require('./commands/credits');
 const tools = require('./commands/tools');
+const voice = require('./commands/voice');
 
 const collect = (v, acc) => { acc.push(v); return acc; };
 
@@ -147,6 +148,45 @@ program.command('split <video_url>').description('Cắt video dài → clip ng�
 program.command('motion <video_url>').description('Áp chuyển động video vào ảnh (Kling)')
   .requiredOption('--image <url...>', 'Ảnh áp motion (1-20)')
   .option('--model <m>').option('--mode <m>', 'standard|professional').option('--prompt <p>').option('--crid <id>').action(tools.motion);
+
+// ── TTS / Voices ─────────────────────────────────────────────────────────────
+program
+  .command('tts')
+  .description('Chuyển văn bản → giọng nói (5 engine qimi_1.5/2.5/3/5/5.5)')
+  .option('--text <t>', 'Văn bản cần đọc')
+  .option('--file <path>', 'Đọc văn bản từ file local (thay --text)')
+  .option('--model <m>', 'qimi_1.5|qimi_2.5|qimi_3|qimi_5|qimi_5.5', 'qimi_3')
+  .requiredOption('--voice <v>', 'Tên giọng — xem cột VOICE của qm voices list')
+  .option('--language <l>', 'Ngôn ngữ — phân biệt giọng trùng tên (xem qm voices list)')
+  .option('--speed <n>', 'Tốc độ đọc 0.5-2.0 (mặc định 1) — CHỈ qimi_5/qimi_5.5')
+  .option('--style <s>', 'Phong cách đọc — nhãn từ cột STYLES của qm voices list')
+  .option('--title <t>', 'Tiêu đề job')
+  .option('--crid <id>', 'client_request_id')
+  .option('--wait', 'Chờ tới khi job hoàn tất')
+  .option('--out <dir>', 'Thư mục lưu file mp3 (dùng kèm --wait)')
+  .action(voice.tts);
+
+const voices_cmd = program.command('voices').description('Giọng đọc: catalog + giọng clone của bạn');
+voices_cmd
+  .command('list')
+  .description('Liệt kê giọng theo model')
+  .requiredOption('--model <m>', 'qimi_1.5|qimi_2.5|qimi_3|qimi_5|qimi_5.5')
+  .option('--language <l>', 'Lọc theo ngôn ngữ')
+  .option('--search <s>', 'Lọc theo tên (không phân biệt hoa/thường)')
+  .option('--limit <n>', 'Số lượng tối đa (mặc định 50, trần 100)')
+  .action(voice.voicesList);
+voices_cmd
+  .command('clone')
+  .description('Nhân bản giọng nói từ file ghi âm mẫu (dùng cho qimi_5/qimi_5.5)')
+  .requiredOption('--audio <file|url>', 'File local mp3/wav/m4a 10s-5 phút ≤20MB (tự upload) hoặc URL do Quick Magic cấp (files.quickmagic.cloud)')
+  .requiredOption('--name <n>', 'Tên giọng — dùng lại ở --voice của qm tts')
+  .option('--crid <id>', 'client_request_id (mặc định tự sinh từ hash file+tên)')
+  .option('--wait', 'Chờ tới khi giọng xử lý xong')
+  .action(voice.voicesClone);
+voices_cmd
+  .command('delete <id>')
+  .description('Xoá giọng đã clone')
+  .action(voice.voicesDelete);
 
 // ── Cutout Studio ────────────────────────────────────────────────────────────
 program.command('cutout').description('Tách nền / tạo ảnh cutout trong suốt (PNG)')
