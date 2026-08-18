@@ -15,20 +15,21 @@ const SUCCESS_STATUSES = new Set(['completed', 'success']);
 // tiếp từ response — override cách hiểu bất kể server còn gắn status gì.
 const PORTRAIT_PREPARING_STATES = new Set(['awaiting_asset', 'asset_ready']);
 
-// Gợi ý theo error_code B′ (đối chiếu backend-quick-magic/services/portrait/portrait-errors.js — 16 mã).
+// Gợi ý theo error_code B′ (đối chiếu backend-quick-magic/services/portrait/portrait-errors.js — 17 mã).
 const PORTRAIT_HINTS = {
   PORTRAIT_PUBLIC_FIGURE: 'dùng ảnh người thường, không phải người nổi tiếng',
   PORTRAIT_MINOR: 'dùng ảnh người lớn, không phải trẻ em',
   PORTRAIT_NSFW: 'dùng ảnh khác, tránh nội dung nhạy cảm',
   PORTRAIT_GEMINI_UNAVAILABLE: 'thử lại sau vài phút',
   PORTRAIT_ASSET_FAILED: 'thử ảnh khác, rõ mặt, chỉ 1 người',
-  PORTRAIT_ASSET_REJECTED: 'thử ảnh khác, rõ mặt, chỉ 1 người',
+  PORTRAIT_ASSET_REJECTED: 'ảnh bị bộ lọc nội dung từ chối (người nổi tiếng/trẻ em/nhạy cảm/bản quyền) — dùng ảnh khác',
   PORTRAIT_TIMEOUT: 'thử lại sau vài phút',
   PORTRAIT_QUOTA_FULL: 'thử lại sau vài phút',
   PORTRAIT_IMAGE_HOST: 'tải ảnh lên QM trước (dùng --image <file>)',
   PORTRAIT_IMAGE_FETCH_FAILED: 'thử lại sau vài phút',
   PORTRAIT_PROVIDER_ERROR: 'thử lại sau vài phút',
-  PORTRAIT_PROVIDER_FAILED: 'thử ảnh khác, rõ mặt, chỉ 1 người',
+  PORTRAIT_PROVIDER_FAILED: 'ảnh bị từ chối theo chính sách nội dung (người nổi tiếng/trẻ em/nhạy cảm/bản quyền) — dùng ảnh khác',
+  PORTRAIT_COPYRIGHT: 'ảnh bị từ chối vì bản quyền/quyền hình ảnh (người nổi tiếng, nhân vật/tác phẩm được bảo hộ) — dùng ảnh khác',
   PORTRAIT_DISABLED: 'đổi --model gemini-omni (nhận ảnh người thật)',
   PORTRAIT_TOO_MANY_IMAGES: 'bớt số ảnh có người thật trong yêu cầu',
   PORTRAIT_VIDEO_REF_UNSUPPORTED: 'dùng --image thay --video-ref, hoặc đổi model',

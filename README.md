@@ -192,8 +192,9 @@ Model họ Seedance 2.x không còn chặn cứng ảnh có người thật: h�
 `qm jobs wait`/`--wait` in dòng `đang chuẩn bị ảnh có người thật (tối đa ~10 phút) — đừng tạo
 job mới…` — **đừng bấm Ctrl+C rồi chạy lại lệnh**, cứ để CLI tự chờ tiếp (script/agent gọi
 `jobs get`/`wait_for_job` cũng áp dụng y hệt — xem `docs/mcp-integration-guide.md` phía repo
-backend). Không hỗ trợ ảnh người nổi tiếng/nhân vật công chúng, trẻ em, hoặc nội dung nhạy cảm —
-job sẽ `failed` kèm 1 `error_code` trong bảng dưới, CLI tự in gợi ý xử lý:
+backend). Ảnh bị bộ lọc nội dung của model từ chối (bản quyền/chính sách; khi bật kiểm tra sớm:
+người nổi tiếng/nhân vật công chúng, trẻ em, nội dung nhạy cảm) → job `failed` kèm message rõ lý do
++ 1 `error_code` trong bảng dưới (credit hoàn), CLI tự in gợi ý xử lý:
 
 | `error_code` | Ý nghĩa | Gợi ý |
 |---|---|---|
@@ -202,13 +203,14 @@ job sẽ `failed` kèm 1 `error_code` trong bảng dưới, CLI tự in gợi ý
 | `PORTRAIT_NSFW` | Ảnh vi phạm nội dung nhạy cảm | Dùng ảnh khác |
 | `PORTRAIT_GEMINI_UNAVAILABLE` | Chưa kiểm được ảnh (hệ thống bận) | Thử lại sau vài phút |
 | `PORTRAIT_ASSET_FAILED` | Ảnh không được chấp nhận (mờ/nhiều người/định dạng lạ) | Thử ảnh khác |
-| `PORTRAIT_ASSET_REJECTED` | Ảnh vẫn bị từ chối sau khi thử lại | Thử ảnh khác, rõ mặt, chỉ 1 người |
+| `PORTRAIT_ASSET_REJECTED` | Ảnh vẫn bị bộ lọc nội dung từ chối sau khi xử lý (người nổi tiếng/trẻ em/nhạy cảm/bản quyền) | Dùng ảnh khác |
 | `PORTRAIT_TIMEOUT` | Chuẩn bị ảnh quá lâu (>10 phút) | Thử lại |
 | `PORTRAIT_QUOTA_FULL` | Hệ thống đang bận (đầy quota tạm) | Thử lại sau vài phút |
 | `PORTRAIT_IMAGE_HOST` | Ảnh không thuộc host Quick Magic | Dùng `--image <file local>` (CLI tự upload) thay URL ngoài |
 | `PORTRAIT_IMAGE_FETCH_FAILED` | Không tải được ảnh | Thử lại |
 | `PORTRAIT_PROVIDER_ERROR` | Hệ thống đang bận (lỗi tạm thời) | Thử lại sau ít phút |
-| `PORTRAIT_PROVIDER_FAILED` | Ảnh không được chấp nhận | Thử ảnh khác, rõ mặt, chỉ 1 người |
+| `PORTRAIT_PROVIDER_FAILED` | Ảnh bị từ chối theo chính sách nội dung (người nổi tiếng/trẻ em/nhạy cảm/bản quyền) | Dùng ảnh khác |
+| `PORTRAIT_COPYRIGHT` | Ảnh bị từ chối vì bản quyền/quyền hình ảnh (người nổi tiếng, nhân vật/tác phẩm/thương hiệu được bảo hộ) | Dùng ảnh khác |
 | `PORTRAIT_DISABLED` | Tính năng ảnh người thật đang tắt | Đổi `--model gemini-omni` |
 | `PORTRAIT_TOO_MANY_IMAGES` | Vượt số ảnh người thật cho phép của model | Bớt `--image` |
 | `PORTRAIT_VIDEO_REF_UNSUPPORTED` | Video tham chiếu có người thật chưa hỗ trợ | Dùng `--image` thay `--video-ref`, hoặc đổi model |
