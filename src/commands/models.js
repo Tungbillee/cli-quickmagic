@@ -1,4 +1,6 @@
-// commands/models.js — liệt kê model ảnh/video dạng bảng key | label | credit (+IMAGES cho video).
+// commands/models.js — liệt kê model ảnh/video/nhạc dạng bảng key | label | credit (+IMAGES cho
+// video). `qm models list --type music` dùng chung hàm này; bảng ĐẦY ĐỦ hơn (giá/ETA/hàng chờ) nằm
+// ở `qm music models` (commands/music.js) — dành cho ai đã quen `qm models list` chung 1 lệnh.
 const api = require('../api');
 
 // Cột IMAGES (video): "ref 9* · frames 2" — theo image_max_by_mode; * = mode cấm ảnh người thật.

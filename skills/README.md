@@ -1,6 +1,6 @@
 # Quick Magic CLI — Agent Skills
 
-9 Agent Skills that wrap the `quickmagic` / `qm` CLI so a coding agent (Claude
+10 Agent Skills that wrap the `quickmagic` / `qm` CLI so a coding agent (Claude
 Code and compatible tools) can drive Quick Magic directly from the terminal —
 mirroring the `npx skills add higgsfield-ai/skills` pattern (`/higgsfield:generate`
 etc.), tailored to Quick Magic's own REST API and CLI.
@@ -18,7 +18,7 @@ when to load the skill).
 Option 1 — `npx skills` (if this repo is published as a skills package):
 
 ```bash
-npx skills add Tungbillee/cli-quickmagic --skills quickmagic-account,quickmagic-generate,quickmagic-product-photoshoot,quickmagic-fashion,quickmagic-cutout,quickmagic-hook-video,quickmagic-edit-image,quickmagic-subtitle-split,quickmagic-tts
+npx skills add Tungbillee/cli-quickmagic --skills quickmagic-account,quickmagic-generate,quickmagic-product-photoshoot,quickmagic-fashion,quickmagic-cutout,quickmagic-hook-video,quickmagic-edit-image,quickmagic-subtitle-split,quickmagic-tts,quickmagic-music
 ```
 
 Option 2 — copy directly into a project's or your user's Claude skills folder:
@@ -35,7 +35,7 @@ mkdir -p ~/.claude/skills && cp -r cli-quickmagic/skills/quickmagic-* ~/.claude/
 
 | Skill | Wraps | Use for |
 |---|---|---|
-| `quickmagic-account` | `auth`, `credits`, `models list`, `jobs get/wait` | login/status, credit balance + Qimi free-window benefit, model catalog, job polling — **foundation** the other 8 skills reference |
+| `quickmagic-account` | `auth`, `credits`, `models list`, `jobs get/wait` | login/status, credit balance + Qimi free-window benefit, model catalog, job polling — **foundation** the other 9 skills reference |
 | `quickmagic-generate` | `generate image`, `generate video` | text/reference-to-image or -video |
 | `quickmagic-product-photoshoot` | `product` | studio/marketing photos of a product (packshot/poster/infographic/composite) |
 | `quickmagic-fashion` | `fashion`, `tryon` | outfit lookbook shoots vs. virtual try-on on a specific person photo |
@@ -44,8 +44,9 @@ mkdir -p ~/.claude/skills && cp -r cli-quickmagic/skills/quickmagic-* ~/.claude/
 | `quickmagic-edit-image` | `edit` | restore / upscale (2k/4k) / beauty / muscle / color_boost on an existing image |
 | `quickmagic-subtitle-split` | `subtitle`, `split` | auto subtitles/dubbing, long-video → short clips |
 | `quickmagic-tts` | `tts`, `voices list/clone/delete` | text-to-speech (5 models) + custom voice cloning |
+| `quickmagic-music` | `music create/lyrics/models/get` | AI song generation (vocals or instrumental) from a description or your own lyrics |
 
-## Shared conventions (all 9 skills)
+## Shared conventions (all 10 skills)
 
 - Check `qm auth status` first; if not logged in, tell the user to run
   `qm auth login`.
@@ -60,7 +61,7 @@ mkdir -p ~/.claude/skills && cp -r cli-quickmagic/skills/quickmagic-* ~/.claude/
   shortfall and a link to top up (https://quickmagic.vn/pricing).
 - Never poll `jobs get` manually — use `qm jobs wait <id> [--out dir]`. Note that
   `--out` only auto-downloads for job types with a single `result_url`
-  (image/video/tryon/edit/hook/subtitle/tts); product/fashion/cutout/split
+  (image/video/tryon/edit/hook/subtitle/tts/music); product/fashion/cutout/split
   return arrays and must be read back with `qm jobs get <id>` after
   completion, and voice-clone jobs (`voc_`) have no `result_url` at all (read
   `voice`/`sample_url`/`status` instead). See `quickmagic-account` for the

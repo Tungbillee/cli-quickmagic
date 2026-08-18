@@ -8,7 +8,7 @@
 images/videos, product photoshoots, virtual try-on, hook ad videos, auto-subtitles/dubbing
 and more, through the Quick Magic REST API. Sign-in is browser-based **OAuth PKCE** — no API
 keys to copy around. Requires Node.js **≥ 18** (uses built-in `fetch`/`crypto`/`http`, no
-`axios`). Also ships with 9 Claude **Agent Skills** and an **MCP server** integration for
+`axios`). Also ships with 10 Claude **Agent Skills** and an **MCP server** integration for
 coding agents. Everything below this line is in Vietnamese (tiếng Việt) — quickstart only:
 
 ```bash
@@ -151,6 +151,10 @@ Ghi chú chung trước khi xem bảng:
 | `qm voices list --model <m>` | Liệt kê giọng theo model + giá (`pricing`) | — |
 | `qm voices clone --audio <file\|url> --name <n>` | Nhân bản giọng riêng (dùng cho qimi_5/5.5) | Có |
 | `qm voices delete <id>` | Xoá giọng đã clone | — |
+| `qm music models` | Bảng model nhạc + giá + ETA + hàng chờ | — |
+| `qm music lyrics --desc <d>` | AI viết lời bài hát | Không (0đ) |
+| `qm music create (--desc <d>\|--lyrics <l>)` | Tạo bài hát AI (mode simple/custom, 2 model melo-3/melo-2) | Có (thường miễn phí giai đoạn ra mắt) |
+| `qm music get <id>` | Xem chi tiết job nhạc | — |
 
 ### Nhập liệu (miễn phí)
 
@@ -263,6 +267,11 @@ qm voices list --model qimi_1.5 --language "Tiếng Việt"
 qm tts --text "Xin chào Quick Magic" --voice <voice_id> --model qimi_3 --wait --out ./out
 qm voices clone --audio ./sample.wav --name "Giọng của tôi" --wait
 
+# Tạo nhạc AI — xem giá trước khi chạy (thường miễn phí giai đoạn ra mắt)
+qm music models
+qm music lyrics --desc "bài hát vui về buổi sáng cà phê Sài Gòn"
+qm music create --mode simple --desc "lofi chill guitar, rainy night" --instrumental --model melo-2 --wait --out ./out
+
 # Video marketing theo mode + phân tích video đối thủ → kịch bản
 qm marketing modes
 qm marketing video --mode 3 --product-id 42 --duration 10
@@ -298,7 +307,7 @@ qm credits          # chạy không cần browser
 
 ## Agent Skills
 
-CLI này đi kèm 9 **Agent Skills** (`skills/quickmagic-*/SKILL.md`) để coding agent
+CLI này đi kèm 10 **Agent Skills** (`skills/quickmagic-*/SKILL.md`) để coding agent
 (Claude Code...) dùng CLI trực tiếp — báo giá + xin xác nhận trước khi tốn credit,
 tự `jobs wait` thay vì poll tay, chủ động báo Qimi free-window. Danh sách đầy đủ và quy ước
 chung: xem `skills/README.md`.
@@ -309,7 +318,7 @@ Cách 1 — `npx skills` (nếu dùng công cụ [`skills`](https://www.npmjs.co
 quản lý Agent Skills từ GitHub):
 
 ```bash
-npx skills add Tungbillee/cli-quickmagic --skills quickmagic-account,quickmagic-generate,quickmagic-product-photoshoot,quickmagic-fashion,quickmagic-cutout,quickmagic-hook-video,quickmagic-edit-image,quickmagic-subtitle-split,quickmagic-tts
+npx skills add Tungbillee/cli-quickmagic --skills quickmagic-account,quickmagic-generate,quickmagic-product-photoshoot,quickmagic-fashion,quickmagic-cutout,quickmagic-hook-video,quickmagic-edit-image,quickmagic-subtitle-split,quickmagic-tts,quickmagic-music
 ```
 
 Cách 2 — copy thủ công vào thư mục skills của Claude Code:
@@ -324,8 +333,8 @@ cp -r skills/quickmagic-* ~/.claude/skills/      # user (mọi project trên má
 Quick Magic cũng có MCP server dùng **chung tài khoản/ví credit** — cho phép Claude Code
 (và các MCP client khác) gọi thẳng `generate_image`, `generate_video`, `get_job`,
 `wait_for_job`, `list_models`, `get_credit_balance`, `list_voices`, `text_to_speech`,
-`create_voice_clone`, `delete_voice_clone`... mà không cần qua CLI. Xác thực OAuth 2.1 qua
-trình duyệt, không cần API key.
+`create_voice_clone`, `delete_voice_clone`, `generate_music`, `write_lyrics`... mà không cần
+qua CLI. Xác thực OAuth 2.1 qua trình duyệt, không cần API key.
 
 - MCP endpoint: `https://api.quickmagic.vn/mcp`
 

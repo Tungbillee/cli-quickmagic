@@ -10,6 +10,7 @@ const models = require('./commands/models');
 const credits = require('./commands/credits');
 const tools = require('./commands/tools');
 const voice = require('./commands/voice');
+const music = require('./commands/music');
 
 const collect = (v, acc) => { acc.push(v); return acc; };
 
@@ -93,7 +94,7 @@ const models_cmd = program.command('models').description('Model AI');
 models_cmd
   .command('list')
   .description('Liệt kê model')
-  .option('--type <t>', 'Loại: image | video', 'image')
+  .option('--type <t>', 'Loại: image | video | music', 'image')
   .action(models.list);
 
 // ── credits ──────────────────────────────────────────────────────────────────
@@ -187,6 +188,41 @@ voices_cmd
   .command('delete <id>')
   .description('Xoá giọng đã clone')
   .action(voice.voicesDelete);
+
+// ── Xưởng Nhạc Melo ──────────────────────────────────────────────────────────
+const music_cmd = program.command('music').description('Xưởng Nhạc Melo — tạo nhạc AI (mô tả/lời → mp3)');
+music_cmd
+  .command('create')
+  .description('Tạo bài hát AI (mode simple: AI viết lời từ mô tả; mode custom: tự nhập lời)')
+  .option('--mode <m>', 'simple (mặc định, AI viết lời) | custom (tự nhập lời)', 'simple')
+  .option('--desc <d>', 'Mô tả bài hát — bắt buộc mode simple, hoặc bản không lời')
+  .option('--lyrics <l>', 'Lời bài hát (mode custom)')
+  .option('--lyrics-file <path>', 'Đọc lời từ file local UTF-8 (thay --lyrics)')
+  .option('--styles <s>', 'Phong cách nhạc, phân cách dấu phẩy (vd "V-pop, Ballad")')
+  .option('--title <t>', 'Tiêu đề bài hát')
+  .option('--model <m>', 'melo-3 (mặc định, mới nhất) | melo-2 (thế hệ trước)', 'melo-3')
+  .option('--instrumental', 'Bản không lời')
+  .option('--gender <g>', 'auto (mặc định) | male | female — chỉ áp dụng khi có lời')
+  .option('--crid <id>', 'client_request_id')
+  .option('--wait', 'Chờ tới khi job hoàn tất')
+  .option('--out <dir>', 'Thư mục lưu file mp3 (tự bật --wait nếu chưa có)')
+  .action(music.create);
+music_cmd
+  .command('lyrics')
+  .description('AI viết lời bài hát (0đ) — xem trước/chỉnh trước khi dùng mode custom')
+  .requiredOption('--desc <d>', 'Mô tả bài hát')
+  .option('--title <t>', 'Tiêu đề gợi ý')
+  .option('--language <l>', 'Ngôn ngữ (mặc định auto)')
+  .option('--instrumental', 'Chỉ cần tiêu đề + phong cách, không cần lời')
+  .action(music.lyrics);
+music_cmd
+  .command('models')
+  .description('Liệt kê model nhạc + giá + ETA + hàng chờ')
+  .action(music.models);
+music_cmd
+  .command('get <id>')
+  .description('Xem chi tiết job nhạc (mus_<n> hoặc số trần)')
+  .action(music.get);
 
 // ── Cutout Studio ────────────────────────────────────────────────────────────
 program.command('cutout').description('Tách nền / tạo ảnh cutout trong suốt (PNG)')

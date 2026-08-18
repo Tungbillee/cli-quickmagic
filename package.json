@@ -1,7 +1,7 @@
 {
   "name": "quickmagic-cli",
-  "version": "1.4.0",
-  "description": "Quick Magic CLI — generate AI images/videos, product photoshoots, virtual try-on, hook ad videos, subtitles, text-to-speech/voice cloning and more via the Quick Magic REST API, with browser-based OAuth PKCE login (no API keys to manage). Ships with 9 Claude Agent Skills and an MCP server integration.",
+  "version": "1.5.0",
+  "description": "Quick Magic CLI — generate AI images/videos, product photoshoots, virtual try-on, hook ad videos, subtitles, text-to-speech/voice cloning, AI song generation and more via the Quick Magic REST API, with browser-based OAuth PKCE login (no API keys to manage). Ships with 10 Claude Agent Skills and an MCP server integration.",
   "bin": {
     "quickmagic": "src/index.js",
     "qm": "src/index.js"
@@ -32,7 +32,10 @@
     "claude-code",
     "agent-skills",
     "product-photography",
-    "virtual-try-on"
+    "virtual-try-on",
+    "text-to-speech",
+    "voice-cloning",
+    "music-generation"
   ],
   "homepage": "https://github.com/Tungbillee/cli-quickmagic#readme",
   "repository": {
