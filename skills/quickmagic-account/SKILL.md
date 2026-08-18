@@ -66,6 +66,11 @@ qm models list --type video    # columns: KEY | LABEL | CREDIT | IMAGES
   `ref 9 · frames 2`. A trailing `*` means that mode **rejects photos containing
   real people** for that model — switch models (e.g. `gemini-omni`, a `seedance
   1.x` key, `wan-2-7`) if the user's reference photos have people in them.
+  No `*` = people photos are fine. Seedance 2.x currently accepts real-people
+  photos (the server prints an ℹ note under the table): the first use of a given
+  photo may add ~1–3 min of preparation — `qm jobs wait` handles it, do NOT
+  resubmit. If the model's content filter rejects a photo (copyright/policy), the
+  job fails with an explicit reason and the credit is refunded — use another photo.
 - The table does not print quality tiers or max-ref-image counts for image
   models — image quality levels are commonly `1K`/`2K`/`4K`, priced per level; if
   the exact enum for a model is unknown, omit `--quality` and let the server

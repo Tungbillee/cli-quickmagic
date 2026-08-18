@@ -51,7 +51,7 @@ gen_cmd
   .option('--resolution <r>', 'Độ phân giải (vd 720p, 1080p)')
   .option('--aspect-ratio <r>', 'Tỉ lệ khung')
   .option('--image <i...>', 'Ảnh đầu vào (URL hoặc file local, lặp nhiều lần — max theo model+mode, xem qm models)')
-  .option('--mode <m>', 'Chế độ ảnh: reference (nhiều ảnh tham chiếu) | frames (khung đầu/cuối, max 2). Seedance 2.x nhận ảnh người thật ở mọi chế độ nhưng cần hệ thống chuẩn bị thêm ~1-3 phút lần đầu, không nhận người nổi tiếng/trẻ em (xem README mục "Ảnh người thật")')
+  .option('--mode <m>', 'Chế độ ảnh: reference (nhiều ảnh tham chiếu) | frames (khung đầu/cuối, max 2). Seedance 2.x nhận ảnh người thật ở mọi chế độ (hệ thống chuẩn bị ảnh thêm ~1-3 phút lần đầu; nếu bộ lọc nội dung của model từ chối — bản quyền/chính sách — CLI in rõ lý do, credit hoàn; xem README mục "Ảnh người thật")')
   .option('--video-ref <v>', 'Video tham chiếu (URL hoặc file local, max 15s/100MB) — CHỈ model supports_video_ref (seedance-2-0/-fast). Giá = rate with-video × (giây output + giây video); không dùng chung với --image')
   .option('--seed <n>', 'Seed cố định — cùng seed + cùng prompt cho kết quả LẶP LẠI được (giữ nhất quán khi render nhiều cảnh)', parseInt)
   .option('--negative <p>', 'Mô tả thứ KHÔNG muốn xuất hiện (watermark, chữ, tay thừa…) — model nào không hỗ trợ thì bỏ qua')

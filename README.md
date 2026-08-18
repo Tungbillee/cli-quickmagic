@@ -187,7 +187,7 @@ qm generate video --prompt "..." --model grok-imagine --wait --out ./out
 
 ### Ảnh người thật (Seedance 2.x)
 
-Model họ Seedance 2.x không còn chặn cứng ảnh có người thật: hệ thống tự kiểm tra + chuẩn bị
+Model họ Seedance 2.x không còn chặn cứng ảnh có người thật: hệ thống tự chuẩn bị (đăng ký)
 ảnh trước khi render, **có thể mất thêm ~1–3 phút** ở lần đầu dùng 1 ảnh cụ thể. Trong lúc đó
 `qm jobs wait`/`--wait` in dòng `đang chuẩn bị ảnh có người thật (tối đa ~10 phút) — đừng tạo
 job mới…` — **đừng bấm Ctrl+C rồi chạy lại lệnh**, cứ để CLI tự chờ tiếp (script/agent gọi

@@ -44,6 +44,11 @@ async function list(options) {
     console.log('  rồi dùng ảnh đó (provider chấp nhận ảnh thuần Seedream 5.0 Pro — đã probe thật 260808).');
     console.log('  Hoặc dùng model không dấu *: gemini-omni / wan-3-0 / wan-2-7 / seedance 1.x nhận ảnh người trực tiếp.');
   }
+  // [Portrait 260819] server bật pass-through → model từng cấm người thật giờ trả real_person_note (không còn dấu *)
+  if (is_video && models.some((m) => m.real_person_note)) {
+    console.log('\nℹ Ảnh người thật: Seedance 2.x nhận bình thường — hệ thống chuẩn bị ảnh thêm ~1-3 phút ở lần đầu dùng 1 ảnh');
+    console.log('  (qm jobs wait tự chờ). Nếu bộ lọc nội dung của model từ chối (bản quyền/chính sách), job failed kèm lý do rõ, credit hoàn.');
+  }
 }
 
 module.exports = { list };

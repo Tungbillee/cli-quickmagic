@@ -36,7 +36,11 @@ studio photos see `quickmagic-product-photoshoot`.
 `KEY | LABEL | CREDIT` (+ `IMAGES` column for video, showing max reference images
 per mode, e.g. `ref 9 · frames 2`; a `*` after a number means that mode **rejects
 real photos of real people** — pick a different model if the user's refs contain
-people, e.g. `gemini-omni` / a `seedance 1.x` key / `wan-2-7`).
+people, e.g. `gemini-omni` / a `seedance 1.x` key / `wan-2-7`). No `*` = people
+photos are accepted; Seedance 2.x currently accepts them (first use of a photo may
+add ~1–3 min of server-side preparation — keep waiting with `qm jobs wait`, do not
+resubmit; a content-filter rejection — copyright/policy — fails the job with an
+explicit reason and refunds the credit → try another photo).
 
 - This table doesn't print quality tiers — image quality levels are commonly
   `1K`/`2K`/`4K`, priced differently per level. If `--quality` matters, mention the
