@@ -29,7 +29,20 @@ const product = run(async (o) => jobHint(await call('POST', '/product/images', {
 const fashion = run(async (o) => jobHint(await call('POST', '/fashion/images', { body: { mode: o.mode, outfit_ids: (o.outfit || []).map(Number), kol_kind: o.kolKind, kol_id: o.kolId ? Number(o.kolId) : undefined, model: o.model, client_request_id: o.crid } })));
 
 // ── Ảnh ──
-const edit = run(async (image, o) => jobHint(await call('POST', '/edit', { body: { image: await rmi(image), tool: o.tool, model: o.model, upscale_target: o.upscaleTarget, style: o.style, client_request_id: o.crid } })));
+const edit = run(async (image, o) => jobHint(await call('POST', '/edit', { body: { image: await rmi(image), tool: o.tool, model: o.model, style: o.style, client_request_id: o.crid } })));
+// [260825, plans/260825-1344-upscale-studio-hf-clone P04] 1 lệnh CLI = N ảnh = N job (mỗi ảnh 1
+// job/hold riêng, REST /upscale chỉ nhận 1 ảnh/call). --crid dùng CHUNG y nguyên cho cả vòng lặp sẽ
+// khiến BE coi ảnh 2+ TRÙNG ảnh 1 (idempotency theo client_request_id) → chỉ ảnh đầu có job thật,
+// các ảnh sau lặng lẽ trả về CÙNG job đó (thiếu ảnh, không lỗi rõ ràng) — hậu tố `-${i}` cho mỗi ảnh
+// 1 khoá riêng, vẫn giữ được idempotency khi retry NGUYÊN LỆNH (cùng --crid, cùng thứ tự ảnh).
+const upscale = run(async (images, o) => {
+  for (const [i, img] of images.entries()) {          // LẶP — không phải images[0]
+    const res = await call('POST', '/upscale', {
+      body: { image: await rmi(img), model: o.model, resolution: o.resolution, client_request_id: o.crid ? `${o.crid}-${i}` : undefined },
+    });
+    jobHint(res);                                      // in job_id từng ảnh
+  }
+});
 const tryon = run(async (o) => jobHint(await call('POST', '/tryon', { body: { type: o.type, model: o.model, model_image: await rmi(o.model_image), garment_image: await rmi(o.garment), upper_image: await rmi(o.upper), lower_image: await rmi(o.lower), background_image: await rmi(o.background), prompt: o.prompt, client_request_id: o.crid } })));
 
 // ── Video nặng / audio ──
@@ -43,4 +56,4 @@ const cutout = run(async (o) => jobHint(await call('POST', '/cutout', { body: { 
 const hookPresets = run(async () => out(await call('GET', '/hook/presets')));
 const hookVideo = run(async (o) => jobHint(await call('POST', '/hook/videos', { body: { preset_id: o.preset, character_url: await rmi(o.character), product_url: await rmi(o.product), aspect: o.aspect, speech_lang: o.speechLang, custom_cta: o.cta, location_url: o.location, accessory_url: o.accessory, style: o.style, format: o.format, resolution: o.resolution, client_request_id: o.crid } })));
 
-module.exports = { scrape, importSocial, assets, analyze, marketingModes, marketingVideo, product, fashion, edit, tryon, stt, subtitle, split, motion, cutout, hookPresets, hookVideo };
+module.exports = { scrape, importSocial, assets, analyze, marketingModes, marketingVideo, product, fashion, edit, upscale, tryon, stt, subtitle, split, motion, cutout, hookPresets, hookVideo };

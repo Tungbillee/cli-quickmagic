@@ -130,9 +130,14 @@ program.command('fashion').description('Tạo ảnh thời trang AI')
   .action(tools.fashion);
 
 // ── Ảnh ────────────────────────────────────────────────────────────────────────
-program.command('edit <image>').description('Sửa ảnh: restore/upscale/beauty/muscle/color_boost')
+program.command('edit <image>').description('Sửa ảnh: restore/beauty/muscle/color_boost (upscale → dùng lệnh `qm upscale`)')
   .requiredOption('--tool <t>').option('--model <m>', 'qimi_2.5|qimi_3', 'qimi_3')
-  .option('--upscale-target <t>', '2k|4k').option('--style <s...>').option('--crid <id>').action(tools.edit);
+  .option('--style <s...>').option('--crid <id>').action(tools.edit);
+program.command('upscale <image...>').description('Upscale ảnh: crisp|standard|seedvr2|ultra (1 lệnh nhiều ảnh = mỗi ảnh 1 job)')
+  .option('--model <m>', 'crisp|standard|seedvr2|ultra', 'standard')
+  .option('--resolution <r>', '2k|4k|8k (bỏ qua với model=crisp)', '4k')
+  .option('--crid <id>', 'client_request_id (tự thêm hậu tố theo từng ảnh)')
+  .action(tools.upscale);
 program.command('tryon').description('Thử đồ ảo (virtual try-on)')
   .requiredOption('--model-image <img>', 'Ảnh người mẫu (URL/base64)')
   .option('--type <t>', 'full|upper', 'full').option('--model <m>', 'qimi_1.5|qimi_2.5|qimi_3', 'qimi_3')
