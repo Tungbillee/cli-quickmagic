@@ -127,7 +127,8 @@ Ghi chú chung trước khi xem bảng:
 | Lệnh | Mô tả | Credit |
 |---|---|---|
 | `qm cutout` | Tách nền / PNG trong suốt / remix scene | Có |
-| `qm edit <image> --tool <t>` | restore / upscale (2k,4k) / beauty / muscle / color_boost | Có |
+| `qm edit <image> --tool <t>` | restore / beauty / muscle / color_boost (upscale → dùng `qm upscale`) | Có |
+| `qm upscale <file...> [--video]` | Upscale ảnh (2k/4k/8k) hoặc video (nâng nét/tăng fps) — 1 lệnh nhiều file = mỗi file 1 job | Có |
 
 ### Video quảng cáo / Marketing
 

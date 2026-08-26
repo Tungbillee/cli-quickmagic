@@ -42,7 +42,7 @@ mkdir -p ~/.claude/skills && cp -r cli-quickmagic/skills/quickmagic-* ~/.claude/
 | `quickmagic-cutout` | `cutout` | transparent PNG cutouts / scene remix |
 | `quickmagic-hook-video` | `hook presets`, `hook video` | ~10s comedy ad video from a character + product photo (18 presets) |
 | `quickmagic-edit-image` | `edit` | restore / beauty / muscle / color_boost on an existing image |
-| `quickmagic-upscale` | `upscale` | upscale one or more images to 2K/4K/8K (crisp/standard/seedvr2/ultra) |
+| `quickmagic-upscale` | `upscale` | upscale images to 2K/4K/8K (crisp/standard/seedvr2/ultra) or videos (standard/pro/seedvr2/fps) |
 | `quickmagic-subtitle-split` | `subtitle`, `split` | auto subtitles/dubbing, long-video → short clips |
 | `quickmagic-tts` | `tts`, `voices list/clone/delete` | text-to-speech (5 models) + custom voice cloning |
 | `quickmagic-music` | `music create/lyrics/models/get` | AI song generation (vocals or instrumental) from a description or your own lyrics |

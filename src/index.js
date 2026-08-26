@@ -133,10 +133,18 @@ program.command('fashion').description('Tạo ảnh thời trang AI')
 program.command('edit <image>').description('Sửa ảnh: restore/beauty/muscle/color_boost (upscale → dùng lệnh `qm upscale`)')
   .requiredOption('--tool <t>').option('--model <m>', 'qimi_2.5|qimi_3', 'qimi_3')
   .option('--style <s...>').option('--crid <id>').action(tools.edit);
-program.command('upscale <image...>').description('Upscale ảnh: crisp|standard|seedvr2|ultra (1 lệnh nhiều ảnh = mỗi ảnh 1 job)')
-  .option('--model <m>', 'crisp|standard|seedvr2|ultra', 'standard')
-  .option('--resolution <r>', '2k|4k|8k (bỏ qua với model=crisp)', '4k')
-  .option('--crid <id>', 'client_request_id (tự thêm hậu tố theo từng ảnh)')
+// [260826, plans/260826-1200-upscale-video-hf-clone-byteplus-vcube P03] mở rộng ẢNH → VIDEO cùng lệnh
+// (giữ nguyên tên arg <image...> — đã pin cứng trong test BE mcp-upscale-wiring.test.js). Video tự
+// nhận theo đuôi .mp4/.mov/.webm (KHÔNG .m4v — media.js/get_upload_url không có mime cho đuôi này),
+// hoặc ép bằng --video khi URL không lộ đuôi (vd link ký chữ ký).
+program.command('upscale <image...>').description('Upscale ảnh (crisp|standard|seedvr2|ultra) hoặc video (standard|pro|seedvr2|fps) — 1 lệnh nhiều file = mỗi file 1 job. File video: .mp4/.mov/.webm, tự nhận theo đuôi hoặc ép bằng --video')
+  .option('--model <m>', 'Ảnh: crisp|standard|seedvr2|ultra — Video: standard|pro|seedvr2|fps', 'standard')
+  // [code-review-p03.md H3] KHÔNG đặt default ở đây — default '4k' hợp lý cho ẢNH (giữ nguyên hành vi
+  // cũ P04) nhưng SAI cho VIDEO (server default là 1080p, rẻ hơn 4k standard 3.9×). Default lệch theo
+  // media_type xử lý TRONG tools.upscale (ảnh mới rơi về '4k' khi không truyền; video để trống, server tự chọn).
+  .option('--resolution <r>', 'Ảnh: 2k|4k|8k, mặc định 4k (bỏ qua crisp) — Video: 720p|1080p|2k|4k, mặc định 1080p do server chọn khi không truyền (bỏ qua fps, pro không nhận 720p)')
+  .option('--video', 'Ép MỌI file trong lệnh này là VIDEO (mặc định tự nhận theo đuôi .mp4/.mov/.webm)')
+  .option('--crid <id>', 'client_request_id (tự thêm hậu tố theo từng file)')
   .action(tools.upscale);
 program.command('tryon').description('Thử đồ ảo (virtual try-on)')
   .requiredOption('--model-image <img>', 'Ảnh người mẫu (URL/base64)')

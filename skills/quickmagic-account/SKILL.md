@@ -108,13 +108,16 @@ generating command's own `--wait` flag, where available).
 | `stt_` | `stt` | text result (no dedicated skill) |
 | `tts_` | `tts` | single `result_url` (mp3) + `model`/`voice`/`character` — see `quickmagic-tts` |
 | `voc_` | `voices clone` | **no** `result_url`: `voice` (name to use with `--voice`), `sample_url`, `is_free` — see `quickmagic-tts` |
+| `mus_` | `music create` | single `result_url` (mp3) + `title`/`duration_ms` — see `quickmagic-music` |
+| `ups_` | `upscale` (image) | single `result_url` — see `quickmagic-upscale` |
+| `vup_` | `upscale` (video, `--video`/auto-detected) | single `result_url` + `duration_sec` — see `quickmagic-upscale` |
 
 **Important caveat**: `jobs wait --out <dir>` only **auto-downloads** for the
-single-`result_url` types (`img_`/`vid_`/`vto_`/`edt_`/`hok_`/`sub_`/`tts_`). For the
-array types (`pai_`/`fsh_`/`cut_`/`spl_`) and `voc_` (voice clone — no file, read
-`voice`/`sample_url` via `qm jobs get`), `--out` still polls status correctly
-but downloads nothing — after status is `completed`, call `qm jobs get <id>` and
-read the array field yourself, then report each URL to the user.
+single-`result_url` types (`img_`/`vid_`/`vto_`/`edt_`/`hok_`/`sub_`/`tts_`/`mus_`/
+`ups_`/`vup_`). For the array types (`pai_`/`fsh_`/`cut_`/`spl_`) and `voc_` (voice
+clone — no file, read `voice`/`sample_url` via `qm jobs get`), `--out` still polls
+status correctly but downloads nothing — after status is `completed`, call
+`qm jobs get <id>` and read the array field yourself, then report each URL to the user.
 
 Statuses: `queued` → `in_progress` → `completed` (success) or `failed` (relay the
 job's `error` field). A `queued` status stuck past ~15 minutes is reported as
