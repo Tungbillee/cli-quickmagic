@@ -165,6 +165,21 @@ Ghi chú chung trước khi xem bảng:
 | `qm import <url>` | Nhập ảnh/video từ link TikTok/Instagram | — |
 | `qm assets <kind>` | Liệt kê tài sản đã lưu: `products`\|`outfits`\|`kols` | — |
 
+### Ứng dụng web (React SSR trên `<slug>.quickmagic.app`)
+
+| Lệnh | Mô tả | Credit |
+|---|---|---|
+| `qm apps create --title "…" [--subdomain s] [--from <app_id>]` | Tạo app mới từ template (`--from` = remix app công khai đã duyệt) | — |
+| `qm apps list` | App của tôi | — |
+| `qm apps status <app_id> [--json]` | Trạng thái deploy/duyệt/build | — |
+| `qm apps repo-access <app_id>` | URL git clone có token 15 phút (push code) | — |
+| `qm apps deploy <app_id> [--wait]` | Build + deploy nhánh main | — |
+| `qm apps publish <app_id> [--unlist]` | Lên feed (cần cover; tự kiểm duyệt; app đầu tiên duyệt tay) | — |
+| `qm apps remove <app_id> --yes` | Xoá vĩnh viễn (subdomain khoá mãi) | — |
+
+Người dùng app trả credit của **chính họ** khi tạo ảnh/video trong app; bạn (creator) nhận 5% trên mỗi lượt.
+Không có `apps db` / `apps secrets` trên CLI (chỉ agent dùng qua MCP).
+
 ## Tạo ảnh
 
 ```bash

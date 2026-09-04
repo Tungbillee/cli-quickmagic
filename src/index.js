@@ -11,6 +11,7 @@ const credits = require('./commands/credits');
 const tools = require('./commands/tools');
 const voice = require('./commands/voice');
 const music = require('./commands/music');
+const apps = require('./commands/apps');
 
 const collect = (v, acc) => { acc.push(v); return acc; };
 
@@ -163,6 +164,24 @@ program.command('motion <video_url>').description('Áp chuyển động video v�
   .requiredOption('--image <url...>', 'Ảnh áp motion (1-20)')
   .option('--model <m>').option('--mode <m>', 'standard|professional').option('--prompt <p>').option('--crid <id>').action(tools.motion);
 
+// ── Media-tools mở rộng [260902] — cùng kho model Spaces "Bàn Sáng Tạo" ─────
+program.command('sfx <prompt>').description('Tạo hiệu ứng âm thanh từ mô tả (whoosh/nổ/mưa/bước chân…)')
+  .option('--model <m>', 'sfx-lite (mặc định) | sfx-pro').option('--duration <s>', 'Giây: lite 3/5/10/15/30, pro 3/5/10/15 (mặc định 5)').option('--crid <id>').action(tools.sfx);
+program.command('remove-bg <image>').description('Tách nền ảnh → PNG trong suốt')
+  .option('--crid <id>').action(tools.removeBg);
+const t3d = program.command('3d').description('Model 3D (.glb): tạo từ ảnh/mô tả + hoạt hình');
+t3d.command('create').description('Tạo model 3D từ ảnh hoặc mô tả')
+  .option('--image <i>', 'Ảnh tham chiếu (file/URL)').option('--prompt <p>', 'Mô tả model')
+  .option('--model <m>', 'tripo-v3 (mặc định) | tripo-v2-5').option('--texture <t>', 'standard | textureless').option('--crid <id>').action(tools.gen3d);
+t3d.command('animate <model_url>').description('Hoạt hình model 3D đã tạo (rig + preset chuyển động)')
+  .option('--preset <p>', 'Tên preset (vd dance_01, wave_goodbye_01)').option('--crid <id>').action(tools.animate3d);
+program.command('talking-photo').description('Ảnh chân dung + audio → video nói chuyện (khớp môi)')
+  .requiredOption('--image <i>', 'Ảnh chân dung (file/URL)').requiredOption('--audio <url>', 'Audio giọng nói (vd kết quả qm tts)')
+  .option('--model <m>', 'talk-fast (mặc định) | talk-standard').option('--resolution <r>', '480p | 720p (talk-standard)').option('--prompt <p>', 'Gợi ý biểu cảm').option('--crid <id>').action(tools.talkingPhoto);
+program.command('extend-video <video_url>').description('Kéo dài video — sinh tiếp N giây sau khung cuối')
+  .requiredOption('--duration <s>', 'Giây đoạn mới: wan 3-10, seedance 4-15')
+  .option('--model <m>', 'vext-wan-2-5 (mặc định) | vext-seedance-2-0').option('--resolution <r>', '480p/720p/1080p (+4k seedance)').option('--prompt <p>', 'Điều xảy ra tiếp theo').option('--crid <id>').action(tools.extendVideo);
+
 // ── TTS / Voices ─────────────────────────────────────────────────────────────
 program
   .command('tts')
@@ -268,6 +287,20 @@ hook_cmd
   .option('--resolution <r>', '720p|1080p')
   .option('--crid <id>', 'client_request_id')
   .action(tools.hookVideo);
+
+// ── apps (Ứng dụng React SSR trên <slug>.quickmagic.app — Apps đợt B) ─────────
+const apps_cmd = program.command('apps').description('Ứng dụng web đầy đủ (React SSR, subdomain riêng, Sign in with Quick Magic)');
+apps_cmd.command('create').description('Tạo app mới (repo từ template) — cần duyệt nếu gọi từ agent')
+  .requiredOption('--title <t>', 'Tên app').option('--subdomain <s>', 'Subdomain mong muốn (tự thêm hậu tố 4 ký tự)')
+  .option('--category <c>', 'Danh mục').option('--description <d>', 'Mô tả 1 câu')
+  .option('--from <app_id>', 'Remix: chép mã nguồn app công khai đã duyệt (không chép secrets/DB/cover)')
+  .action(apps.create);
+apps_cmd.command('list').description('Liệt kê app của tôi').action(apps.list);
+apps_cmd.command('status <app_id>').description('Trạng thái deploy/duyệt/build gần nhất').option('--json', 'In JSON').action(apps.status);
+apps_cmd.command('repo-access <app_id>').description('Lấy URL git clone có token 15 phút (in ra stdout)').action(apps.repoAccess);
+apps_cmd.command('deploy <app_id>').description('Build + deploy nhánh main').option('--wait', 'Chờ tới khi xong (≤5 phút)').action(apps.deploy);
+apps_cmd.command('publish <app_id>').description('Đưa lên feed Ứng dụng (cần deployed + cover; tự kiểm duyệt nội dung)').option('--unlist', 'Gỡ khỏi feed').action(apps.publish);
+apps_cmd.command('remove <app_id>').description('Xoá vĩnh viễn app').option('--yes', 'Xác nhận').action(apps.remove);
 
 program.parseAsync(process.argv).catch((e) => {
   console.error('Lỗi:', e.message);
