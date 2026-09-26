@@ -66,6 +66,8 @@ const voicesList = run(async (o) => {
   const data = await call('GET', `/voices${buildQuery({ model: o.model, language: o.language, search: o.search, limit: o.limit })}`);
   const pricing = data.pricing || {}; // [review C4] BE lỗi/shape cũ → không crash, in được phần còn lại
   printPricing(pricing);
+  // qimi_3.5: server builds this hint from its own preset list — print it verbatim instead of hard-coding keys here.
+  if (data.style_hint) console.log(data.style_hint);
   if (pricing.billing === 'per_char') {
     if (data.clone_price != null) console.log(`Giá clone giọng riêng: ${data.clone_price} credit`);
     // [review C2] false có 2 nghĩa: (a) đã dùng suất, (b) chưa có gói trả phí active (BE trả first_free_upsell=true).
@@ -93,7 +95,12 @@ const voicesList = run(async (o) => {
     }
     if (systems.length) {
       console.log('Giọng hệ thống:');
-      printTable(['VOICE', 'NAME', 'NAME_EN', 'GENDER', 'LANGUAGE'], systems.map((v) => [v.voice, v.name, v.name_en, v.gender, v.language]));
+      // qimi_3.5 system voices (the qimi_3 catalog) have no English name — drop the empty column.
+      const has_en = systems.some((v) => v.name_en);
+      printTable(
+        has_en ? ['VOICE', 'NAME', 'NAME_EN', 'GENDER', 'LANGUAGE'] : ['VOICE', 'NAME', 'GENDER', 'LANGUAGE'],
+        systems.map((v) => (has_en ? [v.voice, v.name, v.name_en, v.gender, v.language] : [v.voice, v.name, v.gender, v.language])),
+      );
     }
   }
   console.log(`\nNgôn ngữ: ${(data.languages || []).join(' · ')}`);

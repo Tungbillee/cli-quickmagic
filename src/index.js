@@ -185,25 +185,25 @@ program.command('extend-video <video_url>').description('Kéo dài video — sin
 // ── TTS / Voices ─────────────────────────────────────────────────────────────
 program
   .command('tts')
-  .description('Chuyển văn bản → giọng nói (5 engine qimi_1.5/2.5/3/5/5.5)')
+  .description('Chuyển văn bản → giọng nói (6 engine qimi_1.5/2.5/3/3.5/5/5.5)')
   .option('--text <t>', 'Văn bản cần đọc')
   .option('--file <path>', 'Đọc văn bản từ file local (thay --text)')
-  .option('--model <m>', 'qimi_1.5|qimi_2.5|qimi_3|qimi_5|qimi_5.5', 'qimi_3')
+  .option('--model <m>', 'qimi_1.5|qimi_2.5|qimi_3|qimi_3.5|qimi_5|qimi_5.5 (qimi_3.5: giọng qimi_3, tính theo ký tự, tối đa 30.000 ký tự)', 'qimi_3')
   .requiredOption('--voice <v>', 'Tên giọng — xem cột VOICE của qm voices list')
   .option('--language <l>', 'Ngôn ngữ — phân biệt giọng trùng tên (xem qm voices list)')
-  .option('--speed <n>', 'Tốc độ đọc 0.5-2.0 (mặc định 1) — CHỈ qimi_5/qimi_5.5')
-  .option('--style <s>', 'Phong cách đọc — nhãn từ cột STYLES của qm voices list')
+  .option('--speed <n>', 'Tốc độ đọc 0.5-2.0 (mặc định 1) — CHỈ qimi_5/qimi_5.5 (qimi_3.5: chỉnh tốc độ bằng --style)')
+  .option('--style <s>', 'Kiểu đọc. qimi_1.5/2.5/3: nhãn cột STYLES của qm voices list. qimi_3.5: tối đa 1 tốc độ (fast|default|slow) + 1 cảm xúc (cheerful|sad|storytelling|emotional) nối bằng "+", vd "slow+storytelling"; hoặc tự mô tả tiếng Việt "custom:<mô tả ≤200 ký tự>" — danh sách mới nhất: qm voices list --model qimi_3.5')
   .option('--title <t>', 'Tiêu đề job')
   .option('--crid <id>', 'client_request_id')
   .option('--wait', 'Chờ tới khi job hoàn tất')
-  .option('--out <dir>', 'Thư mục lưu file mp3 (dùng kèm --wait)')
+  .option('--out <dir>', 'Thư mục lưu file audio mp3/wav (dùng kèm --wait)')
   .action(voice.tts);
 
 const voices_cmd = program.command('voices').description('Giọng đọc: catalog + giọng clone của bạn');
 voices_cmd
   .command('list')
-  .description('Liệt kê giọng theo model')
-  .requiredOption('--model <m>', 'qimi_1.5|qimi_2.5|qimi_3|qimi_5|qimi_5.5')
+  .description('Liệt kê giọng theo model (+ giá, và gợi ý kiểu đọc với qimi_3.5)')
+  .requiredOption('--model <m>', 'qimi_1.5|qimi_2.5|qimi_3|qimi_3.5|qimi_5|qimi_5.5')
   .option('--language <l>', 'Lọc theo ngôn ngữ')
   .option('--search <s>', 'Lọc theo tên (không phân biệt hoa/thường)')
   .option('--limit <n>', 'Số lượng tối đa (mặc định 50, trần 100)')

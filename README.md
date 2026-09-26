@@ -148,7 +148,7 @@ Ghi chú chung trước khi xem bảng:
 | `qm subtitle <video_url>` | Thêm phụ đề (+ lồng tiếng, dịch) | Có |
 | `qm split <video_url>` | Cắt video dài → clip ngắn | Có |
 | `qm motion <video_url> --image <url...>` | Áp chuyển động video vào ảnh (Kling) | Có |
-| `qm tts (--text <t>\|--file <path>) --voice <v>` | Chuyển văn bản → giọng nói (5 model qimi_1.5/2.5/3/5/5.5) | Có |
+| `qm tts (--text <t>\|--file <path>) --voice <v>` | Chuyển văn bản → giọng nói (6 model qimi_1.5/2.5/3/3.5/5/5.5; qimi_3.5 có kiểu đọc `--style`) | Có |
 | `qm voices list --model <m>` | Liệt kê giọng theo model + giá (`pricing`) | — |
 | `qm voices clone --audio <file\|url> --name <n>` | Nhân bản giọng riêng (dùng cho qimi_5/5.5) | Có |
 | `qm voices delete <id>` | Xoá giọng đã clone | — |
@@ -282,6 +282,13 @@ qm motion https://cdn.example.com/dance.mp4 --image ./photo.jpg
 qm voices list --model qimi_1.5 --language "Tiếng Việt"
 qm tts --text "Xin chào Quick Magic" --voice <voice_id> --model qimi_3 --wait --out ./out
 qm voices clone --audio ./sample.wav --name "Giọng của tôi" --wait
+
+# Qimi 3.5 — giọng của qimi_3, tính theo KÝ TỰ (đọc giá ở dòng "Giá:"), tối đa 30.000 ký tự, chọn kiểu đọc:
+#   --style: tối đa 1 tốc độ (fast|default|slow) + 1 cảm xúc (cheerful|sad|storytelling|emotional), nối bằng "+"
+#            hoặc tự mô tả tiếng Việt "custom:<mô tả ≤200 ký tự>"; bỏ trống = đọc tự nhiên
+qm voices list --model qimi_3.5
+qm tts --file ./truyen.txt --voice <voice_id> --model qimi_3.5 --style "slow+storytelling" --wait --out ./out
+qm tts --text "Ngày xửa ngày xưa..." --voice <voice_id> --model qimi_3.5 --style "custom:giọng trầm ấm, chậm rãi như kể chuyện đêm khuya" --wait --out ./out
 
 # Tạo nhạc AI — xem giá trước khi chạy (thường miễn phí giai đoạn ra mắt)
 qm music models

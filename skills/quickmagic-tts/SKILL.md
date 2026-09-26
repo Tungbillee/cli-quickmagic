@@ -2,12 +2,15 @@
 name: quickmagic-tts
 description: >-
   Convert text to speech, or clone a custom voice, via the Quick Magic CLI
-  (`qm tts`, `qm voices list/clone/delete`). Covers 5 TTS engines (qimi_1.5,
-  qimi_2.5, qimi_3, qimi_5, qimi_5.5) — the last two add 310 built-in system
-  voices across 16 languages plus optional user voice cloning. Triggers:
-  "đọc văn bản thành giọng nói", "chuyển text thành giọng nói", "clone giọng",
-  "tạo giọng riêng", "nhân bản giọng nói", "text to speech", "voice clone",
-  "TTS", "read this text aloud", "convert text to audio".
+  (`qm tts`, `qm voices list/clone/delete`). Covers 6 TTS engines (qimi_1.5,
+  qimi_2.5, qimi_3, qimi_3.5, qimi_5, qimi_5.5) — qimi_3.5 reads the qimi_3
+  voices with a chosen reading style (speed/emotion presets or your own
+  Vietnamese description), billed per character; qimi_5/qimi_5.5 add 310
+  built-in system voices across 16 languages plus optional user voice
+  cloning. Triggers: "đọc văn bản thành giọng nói", "chuyển text thành giọng
+  nói", "đọc truyện", "giọng kể chuyện", "đọc chậm", "giọng vui tươi",
+  "clone giọng", "tạo giọng riêng", "nhân bản giọng nói", "text to speech",
+  "voice clone", "TTS", "read this text aloud", "convert text to audio".
 ---
 
 # quickmagic-tts — Text-to-Speech & Voice Cloning
@@ -19,7 +22,7 @@ text read aloud as audio, or wants a custom cloned voice for future TTS calls.
 
 | Command | Required flags | Key optional flags |
 |---|---|---|
-| `qm tts` | `--text <t>` or `--file <path>`, `--voice <v>` | `--model <m>` (default `qimi_3`), `--language <l>`, `--speed <n>` (0.5-2.0, qimi_5/qimi_5.5 only), `--style <s>`, `--title <t>`, `--crid <id>`, `--wait`, `--out <dir>` |
+| `qm tts` | `--text <t>` or `--file <path>`, `--voice <v>` | `--model <m>` (default `qimi_3`), `--language <l>`, `--speed <n>` (0.5-2.0, qimi_5/qimi_5.5 only), `--style <s>` (voice label for qimi_1.5/2.5/3; preset or `custom:<mô tả>` for qimi_3.5 — see "Reading styles"), `--title <t>`, `--crid <id>`, `--wait`, `--out <dir>` |
 | `qm voices list` | `--model <m>` | `--language <l>`, `--search <s>`, `--limit <n>` (default 50, max 100 — qimi_1.5 has 535 voices and qimi_5 310+: use `--language`/`--search` to narrow instead of paging) |
 | `qm voices clone` | `--audio <file\|url>`, `--name <n>` | `--crid <id>` (auto-generated if omitted), `--wait` |
 | `qm voices delete <id>` | `<id>` (`voc_12` or bare `12`) | — |
@@ -31,15 +34,18 @@ text read aloud as audio, or wants a custom cloned voice for future TTS calls.
 | `qimi_1.5` | flat credits/call | 50,000 | fixed catalog |
 | `qimi_2.5` | flat credits/call | 30,000 | fixed catalog |
 | `qimi_3` (default) | flat credits/call | 30,000 | fixed catalog |
+| `qimi_3.5` | credits/character, with a minimum charge | 30,000 | the `qimi_3` catalog (multilingual) + reading styles — no clones |
 | `qimi_5` | credits/character, with a minimum charge | 10,000 | 310 system voices (16 languages) + your own clones |
 | `qimi_5.5` | credits/character (higher quality), with a minimum charge | 10,000 | 310 system voices (16 languages) + your own clones |
 
-Reference only, as of 260817 — **never quote these from memory**. Always run
+Reference only, as of 260927 — **never quote these from memory**. Always run
 `qm voices list --model <m>` and read the `pricing` object from its response:
-roughly `qimi_1.5`/`qimi_2.5` ≈ 2cr/call, `qimi_3` ≈ 4cr/call, `qimi_5` ≈
-0.09cr/char, `qimi_5.5` ≈ 0.15cr/char (min ~5cr) — rates can change. Voice
-cloning is a separate, much larger flat charge (~2,230cr) — see "Cloning a
-custom voice" below.
+roughly `qimi_1.5`/`qimi_2.5` ≈ 2cr/call, `qimi_3` ≈ 4cr/call, `qimi_3.5` ≈
+0.027cr/char (min ~2cr, e.g. 10,000 chars ≈ 270cr), `qimi_5` ≈ 0.09cr/char,
+`qimi_5.5` ≈ 0.15cr/char (min ~5cr) — rates can change. Per-character models
+count the text **after** your saved pronunciation replacements. Voice cloning
+is a separate, much larger flat charge (~2,230cr) — see "Cloning a custom
+voice" below.
 
 ## Pick a voice
 
@@ -55,6 +61,9 @@ qm voices list --model qimi_5 --search Minh --limit 20
 - `qimi_1.5`/`qimi_2.5`/`qimi_3` list a fixed catalog with a `STYLES` column
   (labels like "Vui vẻ"/"Formal") — pass the exact label as `--style`.
   `qimi_5`/`qimi_5.5` voices don't take `--style`.
+- `qimi_3.5` lists the same voices as `qimi_3` (under "Giọng hệ thống") and
+  prints a `Kiểu đọc (style)` line — its `--style` is a reading style, not a
+  voice label (see "Reading styles" below).
 - `qimi_5`/`qimi_5.5` output splits into **"Giọng của bạn"** (voices you
   cloned) and **"Giọng hệ thống"** (310 system voices, 16 languages) —
   cloning is optional, try a system voice first. Each system voice reads
@@ -74,8 +83,28 @@ qm tts --file ./script.txt --voice <voice_id> --model qimi_5 --language "Tiếng
 - The CLI prints the character count before submitting; sanity-check it
   against the model's char limit above to avoid a `char_limit_exceeded`.
 - Without `--wait`, note the printed job id (`tts_<n>`) and run
-  `qm jobs wait tts_<n> --out ./out` separately — it auto-downloads the mp3
-  (single `result_url`).
+  `qm jobs wait tts_<n> --out ./out` separately — it auto-downloads the audio
+  file (mp3, or wav for qimi_3/qimi_3.5; single `result_url`).
+
+## Reading styles (qimi_3.5 only)
+
+```bash
+qm voices list --model qimi_3.5          # prints the price line + the live "Kiểu đọc (style)" hint
+qm tts --file ./truyen.txt --voice <voice_id> --model qimi_3.5 --style "slow+storytelling" --wait --out ./out
+qm tts --text "Ngày xửa ngày xưa..." --voice <voice_id> --model qimi_3.5 --style "custom:giọng trầm ấm, chậm rãi như kể chuyện đêm khuya" --wait --out ./out
+```
+
+- Preset: at most **one speed** (`fast` | `default` | `slow`) and **one
+  emotion** (`cheerful` | `sad` | `storytelling` | `emotional`), joined
+  with `+` — e.g. `slow`, `cheerful`, `slow+storytelling`. The server's
+  current list is the `Kiểu đọc (style)` line of `qm voices list --model qimi_3.5`.
+- Custom: `custom:<Vietnamese description>`, ≤200 characters after the
+  server removes quotes/brackets and turns line breaks into spaces. It only
+  changes tone, pace and emotion — the text is still read word for word.
+- Omit `--style` for a natural read. `--speed` does not apply to qimi_3.5 —
+  put the speed in `--style` instead.
+- An unknown key, two speeds, two emotions, or a custom text over 200
+  characters fails with `invalid_style` **before** any credit is held.
 
 ## Cloning a custom voice (optional, for qimi_5/qimi_5.5)
 
@@ -137,10 +166,10 @@ CLI prints `Lỗi [code]: message`. Common codes:
 
 | Code | Meaning | What to do |
 |---|---|---|
-| `invalid_model` | `--model` not one of the 5 keys (e.g. `v3`) | use `qimi_1.5|qimi_2.5|qimi_3|qimi_5|qimi_5.5` |
+| `invalid_model` | `--model` not one of the 6 keys (e.g. `v3`) | use `qimi_1.5|qimi_2.5|qimi_3|qimi_3.5|qimi_5|qimi_5.5` |
 | `voice_not_found` | bad/unknown `--voice` | re-pick from `qm voices list`; if the name repeats across languages, add `--language` |
-| `invalid_style` | `--style` isn't in that voice's `styles` | use the exact label from the `STYLES` column |
-| `invalid_speed` | outside 0.5-2.0, or `--speed` used with qimi_1.5/2.5/3 | clamp to range; only pass `--speed` for qimi_5/qimi_5.5 |
+| `invalid_style` | qimi_1.5/2.5/3: `--style` isn't in that voice's `styles`; qimi_3.5: unknown preset key, two speeds/emotions, or `custom:` text over 200 chars | use the exact `STYLES` label; for qimi_3.5 follow "Reading styles" |
+| `invalid_speed` | `--speed` outside 0.5-2.0 on qimi_5/qimi_5.5 (other models ignore `--speed`) | clamp to range; for qimi_3.5 use a speed preset in `--style` |
 | `char_limit_exceeded` | text longer than the model's char limit | split the text into smaller chunks |
 | `insufficient_credit` / `negative_balance` | not enough balance | state the exact shortfall and https://quickmagic.vn/pricing |
 | `rate_limited` / `concurrent_limit` / `busy` | too many requests/jobs right now | wait, then retry |
@@ -158,6 +187,9 @@ Full auth/job/error-code reference: `quickmagic-account` skill.
 qm auth status
 qm voices list --model qimi_1.5 --language "Tiếng Việt"   # qimi_3 has no per-language labels (all "Đa ngôn ngữ (70+)") — omit --language for it
 qm tts --text "Chào mừng đến với Quick Magic." --voice <voice_id> --model qimi_3 --wait --out ./out
+
+qm voices list --model qimi_3.5
+qm tts --file ./truyen.txt --voice <voice_id> --model qimi_3.5 --style "slow+storytelling" --wait --out ./out
 
 qm voices list --model qimi_5
 qm voices clone --audio ./mysample.wav --name "Giọng riêng" --wait
