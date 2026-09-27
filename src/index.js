@@ -188,7 +188,7 @@ program
   .description('Chuyển văn bản → giọng nói (6 engine qimi_1.5/2.5/3/3.5/5/5.5)')
   .option('--text <t>', 'Văn bản cần đọc')
   .option('--file <path>', 'Đọc văn bản từ file local (thay --text)')
-  .option('--model <m>', 'qimi_1.5|qimi_2.5|qimi_3|qimi_3.5|qimi_5|qimi_5.5 (qimi_3.5: giọng qimi_3, tính theo ký tự, tối đa 30.000 ký tự)', 'qimi_3')
+  .option('--model <m>', 'qimi_1.5|qimi_2.5|qimi_3|qimi_3.5|qimi_5|qimi_5.5 (qimi_3.5: giọng qimi_3, giá cố định mỗi lần — xem giá ở qm voices list --model qimi_3.5, tối đa 30.000 ký tự)', 'qimi_3')
   .requiredOption('--voice <v>', 'Tên giọng — xem cột VOICE của qm voices list')
   .option('--language <l>', 'Ngôn ngữ — phân biệt giọng trùng tên (xem qm voices list)')
   .option('--speed <n>', 'Tốc độ đọc 0.5-2.0 (mặc định 1) — CHỈ qimi_5/qimi_5.5 (qimi_3.5: chỉnh tốc độ bằng --style)')

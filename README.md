@@ -283,7 +283,7 @@ qm voices list --model qimi_1.5 --language "Tiếng Việt"
 qm tts --text "Xin chào Quick Magic" --voice <voice_id> --model qimi_3 --wait --out ./out
 qm voices clone --audio ./sample.wav --name "Giọng của tôi" --wait
 
-# Qimi 3.5 — giọng của qimi_3, tính theo KÝ TỰ (đọc giá ở dòng "Giá:"), tối đa 30.000 ký tự, chọn kiểu đọc:
+# Qimi 3.5 — giọng của qimi_3, giá cố định mỗi lần (xem dòng "Giá:" của qm voices list --model qimi_3.5), tối đa 30.000 ký tự, chọn kiểu đọc:
 #   --style: tối đa 1 tốc độ (fast|default|slow) + 1 cảm xúc (cheerful|sad|storytelling|emotional), nối bằng "+"
 #            hoặc tự mô tả tiếng Việt "custom:<mô tả ≤200 ký tự>"; bỏ trống = đọc tự nhiên
 qm voices list --model qimi_3.5

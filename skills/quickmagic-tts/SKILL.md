@@ -5,7 +5,7 @@ description: >-
   (`qm tts`, `qm voices list/clone/delete`). Covers 6 TTS engines (qimi_1.5,
   qimi_2.5, qimi_3, qimi_3.5, qimi_5, qimi_5.5) — qimi_3.5 reads the qimi_3
   voices with a chosen reading style (speed/emotion presets or your own
-  Vietnamese description), billed per character; qimi_5/qimi_5.5 add 310
+  Vietnamese description), at a flat price per call; qimi_5/qimi_5.5 add 310
   built-in system voices across 16 languages plus optional user voice
   cloning. Triggers: "đọc văn bản thành giọng nói", "chuyển text thành giọng
   nói", "đọc truyện", "giọng kể chuyện", "đọc chậm", "giọng vui tươi",
@@ -34,14 +34,14 @@ text read aloud as audio, or wants a custom cloned voice for future TTS calls.
 | `qimi_1.5` | flat credits/call | 50,000 | fixed catalog |
 | `qimi_2.5` | flat credits/call | 30,000 | fixed catalog |
 | `qimi_3` (default) | flat credits/call | 30,000 | fixed catalog |
-| `qimi_3.5` | credits/character, with a minimum charge | 30,000 | the `qimi_3` catalog (multilingual) + reading styles — no clones |
+| `qimi_3.5` | flat credits/call | 30,000 | the `qimi_3` catalog (multilingual) + reading styles — no clones |
 | `qimi_5` | credits/character, with a minimum charge | 10,000 | 310 system voices (16 languages) + your own clones |
 | `qimi_5.5` | credits/character (higher quality), with a minimum charge | 10,000 | 310 system voices (16 languages) + your own clones |
 
 Reference only, as of 260927 — **never quote these from memory**. Always run
 `qm voices list --model <m>` and read the `pricing` object from its response:
 roughly `qimi_1.5`/`qimi_2.5` ≈ 2cr/call, `qimi_3` ≈ 4cr/call, `qimi_3.5` ≈
-0.027cr/char (min ~2cr, e.g. 10,000 chars ≈ 270cr), `qimi_5` ≈ 0.09cr/char,
+10cr/call (any length up to 30,000 chars), `qimi_5` ≈ 0.09cr/char,
 `qimi_5.5` ≈ 0.15cr/char (min ~5cr) — rates can change. Per-character models
 count the text **after** your saved pronunciation replacements. Voice cloning
 is a separate, much larger flat charge (~2,230cr) — see "Cloning a custom
@@ -61,7 +61,7 @@ qm voices list --model qimi_5 --search Minh --limit 20
 - `qimi_1.5`/`qimi_2.5`/`qimi_3` list a fixed catalog with a `STYLES` column
   (labels like "Vui vẻ"/"Formal") — pass the exact label as `--style`.
   `qimi_5`/`qimi_5.5` voices don't take `--style`.
-- `qimi_3.5` lists the same voices as `qimi_3` (under "Giọng hệ thống") and
+- `qimi_3.5` lists the same voices as `qimi_3` and
   prints a `Kiểu đọc (style)` line — its `--style` is a reading style, not a
   voice label (see "Reading styles" below).
 - `qimi_5`/`qimi_5.5` output splits into **"Giọng của bạn"** (voices you
