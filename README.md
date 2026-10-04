@@ -137,6 +137,11 @@ Ghi chú chung trước khi xem bảng:
 |---|---|---|
 | `qm 3d create (--image <i>\|--prompt <p>)` | Tạo model 3D (.glb) từ ảnh hoặc mô tả (`--model tripo-v3\|tripo-v2-5`, `--texture standard\|textureless`) | Có |
 | `qm 3d animate <model_url> [--preset <p>]` | Gắn khung xương + chuyển động cho model 3D đã tạo (vd `dance_01`) | Có |
+| `qm 3d list` | Liệt kê cảnh Xưởng 3D của bạn (cảnh tạo ở web; cần gói trả phí) | — |
+| `qm 3d open <id>` | Xem thông tin một cảnh (revision, tên, tỉ lệ khung) | — |
+| `qm 3d run <id> --code <file.py> [--query] [--wait]` | Chạy Python Blender trên cảnh — mặc định lưu thành revision mới, `--query` chỉ đọc; gán kết quả vào biến `result` | — |
+| `qm 3d op <op_id>` | Xem trạng thái + kết quả một lần `run` (kèm link ảnh render nếu có) | — |
+| `qm 3d glb <id> [--rev <n>] [--output <file>]` | Tải GLB của cảnh (không ghi đè file có sẵn) | — |
 
 ### Video quảng cáo / Marketing
 

@@ -12,6 +12,7 @@ const tools = require('./commands/tools');
 const voice = require('./commands/voice');
 const music = require('./commands/music');
 const apps = require('./commands/apps');
+const threed = require('./commands/threed');
 
 const collect = (v, acc) => { acc.push(v); return acc; };
 
@@ -175,6 +176,15 @@ t3d.command('create').description('Tạo model 3D từ ảnh hoặc mô tả')
   .option('--model <m>', 'tripo-v3 (mặc định) | tripo-v2-5').option('--texture <t>', 'standard | textureless').option('--crid <id>').action(tools.gen3d);
 t3d.command('animate <model_url>').description('Hoạt hình model 3D đã tạo (rig + preset chuyển động)')
   .option('--preset <p>', 'Tên preset (vd dance_01, wave_goodbye_01)').option('--crid <id>').action(tools.animate3d);
+// Cảnh Xưởng 3D (3D Bunshin) — chạy Python Blender trên cảnh đã tạo ở web, 0 credit, cần gói trả phí.
+t3d.command('list').description('Liệt kê cảnh Xưởng 3D của bạn (cần gói trả phí)').action(threed.list);
+t3d.command('open <id>').description('Xem thông tin một cảnh (revision, tên, tỉ lệ khung)').action(threed.open);
+t3d.command('run <id>').description('Chạy file Python Blender trên cảnh (mặc định lưu thay đổi thành revision mới)')
+  .requiredOption('--code <file>', 'File Python (gán kết quả vào biến `result`)')
+  .option('--query', 'Chỉ đọc, không lưu thay đổi').option('--wait', 'Chờ chạy xong rồi in kết quả (tối đa 5 phút)').action(threed.runCode);
+t3d.command('op <op_id>').description('Xem trạng thái + kết quả một lần chạy (op_id từ qm 3d run)').action(threed.op);
+t3d.command('glb <id>').description('Tải GLB của cảnh về file mới, không ghi đè file có sẵn')
+  .option('--rev <number>', 'Revision (mặc định: mới nhất)').option('--output <file>', 'File đầu ra', 'scene.glb').action(threed.glb);
 program.command('talking-photo').description('Ảnh chân dung + audio → video nói chuyện (khớp môi)')
   .requiredOption('--image <i>', 'Ảnh chân dung (file/URL)').requiredOption('--audio <url>', 'Audio giọng nói (vd kết quả qm tts)')
   .option('--model <m>', 'talk-fast (mặc định) | talk-standard').option('--resolution <r>', '480p | 720p (talk-standard)').option('--prompt <p>', 'Gợi ý biểu cảm').option('--crid <id>').action(tools.talkingPhoto);
