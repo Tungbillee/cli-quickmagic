@@ -129,6 +129,14 @@ Ghi chú chung trước khi xem bảng:
 | `qm cutout` | Tách nền / PNG trong suốt / remix scene | Có |
 | `qm edit <image> --tool <t>` | restore / beauty / muscle / color_boost (upscale → dùng `qm upscale`) | Có |
 | `qm upscale <file...> [--video]` | Upscale ảnh (2k/4k/8k) hoặc video (nâng nét/tăng fps) — 1 lệnh nhiều file = mỗi file 1 job | Có |
+| `qm remove-bg <image>` | Tách nền ảnh → PNG trong suốt | Có |
+
+### Model 3D
+
+| Lệnh | Mô tả | Credit |
+|---|---|---|
+| `qm 3d create (--image <i>\|--prompt <p>)` | Tạo model 3D (.glb) từ ảnh hoặc mô tả (`--model tripo-v3\|tripo-v2-5`, `--texture standard\|textureless`) | Có |
+| `qm 3d animate <model_url> [--preset <p>]` | Gắn khung xương + chuyển động cho model 3D đã tạo (vd `dance_01`) | Có |
 
 ### Video quảng cáo / Marketing
 
@@ -148,6 +156,9 @@ Ghi chú chung trước khi xem bảng:
 | `qm subtitle <video_url>` | Thêm phụ đề (+ lồng tiếng, dịch) | Có |
 | `qm split <video_url>` | Cắt video dài → clip ngắn | Có |
 | `qm motion <video_url> --image <url...>` | Áp chuyển động video vào ảnh (Kling) | Có |
+| `qm extend-video <video> --duration <s>` | Kéo dài video — sinh tiếp N giây sau khung cuối (wan 3-10s, seedance 4-15s) | Có |
+| `qm talking-photo --image <i> --audio <a>` | Ảnh chân dung + audio → video nói chuyện khớp môi | Có |
+| `qm sfx <prompt> [--duration <s>]` | Tạo hiệu ứng âm thanh từ mô tả (whoosh/nổ/mưa/bước chân…) | Có |
 | `qm tts (--text <t>\|--file <path>) --voice <v>` | Chuyển văn bản → giọng nói (6 model qimi_1.5/2.5/3/3.5/5/5.5; qimi_3.5 có kiểu đọc `--style`) | Có |
 | `qm voices list --model <m>` | Liệt kê giọng theo model + giá (`pricing`) | — |
 | `qm voices clone --audio <file\|url> --name <n>` | Nhân bản giọng riêng (dùng cho qimi_5/5.5) | Có |

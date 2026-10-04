@@ -72,9 +72,18 @@ const subtitle = run(async (video_url, o) => jobHint(await call('POST', '/subtit
 const split = run(async (video_url, o) => jobHint(await call('POST', '/split', { body: { video_url, clip_mode: o.mode, title_lang: o.titleLang, translate_lang: o.translate, client_request_id: o.crid } })));
 const motion = run(async (video_url, o) => jobHint(await call('POST', '/motion', { body: { video_url, image_urls: await resolveMediaInputs(o.image || []), model: o.model, mode: o.mode, prompt: o.prompt, client_request_id: o.crid } })));
 
+// ── Media-tools mở rộng [260902] (SFX / tách nền / 3D / ảnh nói / kéo dài video — cùng kho model Spaces) ──
+// index.js khai báo 6 lệnh này từ v1.8.0 nhưng 6 hàm chưa từng được commit ⇒ v1.9.0 chạy là "Cannot read properties of undefined".
+const sfx = run(async (prompt, o) => jobHint(await call('POST', '/sfx', { body: { prompt, model: o.model, duration_sec: o.duration ? Number(o.duration) : undefined, client_request_id: o.crid } })));
+const removeBg = run(async (image, o) => jobHint(await call('POST', '/remove-bg', { body: { image: await rmi(image), client_request_id: o.crid } })));
+const gen3d = run(async (o) => jobHint(await call('POST', '/3d', { body: { image: await rmi(o.image), prompt: o.prompt, model: o.model, texture: o.texture, client_request_id: o.crid } })));
+const animate3d = run(async (model_url, o) => jobHint(await call('POST', '/3d/animate', { body: { model_url, preset: o.preset, client_request_id: o.crid } })));
+const talkingPhoto = run(async (o) => jobHint(await call('POST', '/talking-photo', { body: { image: await rmi(o.image), audio_url: await rmi(o.audio), model: o.model, resolution: o.resolution, prompt: o.prompt, client_request_id: o.crid } })));
+const extendVideo = run(async (video, o) => jobHint(await call('POST', '/extend-video', { body: { video: await rmi(video), duration: Number(o.duration), model: o.model, resolution: o.resolution, prompt: o.prompt, client_request_id: o.crid } })));
+
 // ── Cutout / Hook Studio ──
 const cutout = run(async (o) => jobHint(await call('POST', '/cutout', { body: { operation: o.operation, ref_image_urls: await resolveMediaInputs(o.ref || []), prompt: o.prompt, model: o.model, aspect_ratio: o.aspectRatio, quality: o.quality, num_images: o.n ? Number(o.n) : undefined, transparent_bg: o.transparentBg, client_request_id: o.crid } })));
 const hookPresets = run(async () => out(await call('GET', '/hook/presets')));
 const hookVideo = run(async (o) => jobHint(await call('POST', '/hook/videos', { body: { preset_id: o.preset, character_url: await rmi(o.character), product_url: await rmi(o.product), aspect: o.aspect, speech_lang: o.speechLang, custom_cta: o.cta, location_url: o.location, accessory_url: o.accessory, style: o.style, format: o.format, resolution: o.resolution, client_request_id: o.crid } })));
 
-module.exports = { scrape, importSocial, assets, analyze, marketingModes, marketingVideo, product, fashion, edit, upscale, tryon, stt, subtitle, split, motion, cutout, hookPresets, hookVideo };
+module.exports = { scrape, importSocial, assets, analyze, marketingModes, marketingVideo, product, fashion, edit, upscale, tryon, stt, subtitle, split, motion, cutout, hookPresets, hookVideo, sfx, removeBg, gen3d, animate3d, talkingPhoto, extendVideo };
