@@ -181,7 +181,7 @@ t3d.command('list').description('Liệt kê cảnh Xưởng 3D của bạn (cầ
 t3d.command('open <id>').description('Xem thông tin một cảnh (revision, tên, tỉ lệ khung)').action(threed.open);
 t3d.command('run <id>').description('Chạy file Python Blender trên cảnh (mặc định lưu thay đổi thành revision mới)')
   .requiredOption('--code <file>', 'File Python (gán kết quả vào biến `result`)')
-  .option('--query', 'Chỉ đọc, không lưu thay đổi').option('--wait', 'Chờ chạy xong rồi in kết quả (tối đa 5 phút)').action(threed.runCode);
+  .option('--query', 'Chỉ đọc, không lưu thay đổi').option('--wait', 'Chờ chạy xong rồi in kết quả (tối đa 12 phút)').action(threed.runCode);
 t3d.command('op <op_id>').description('Xem trạng thái + kết quả một lần chạy (op_id từ qm 3d run)').action(threed.op);
 t3d.command('glb <id>').description('Tải GLB của cảnh về file mới, không ghi đè file có sẵn')
   .option('--rev <number>', 'Revision (mặc định: mới nhất)').option('--output <file>', 'File đầu ra', 'scene.glb').action(threed.glb);

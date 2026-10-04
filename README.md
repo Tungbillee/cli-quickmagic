@@ -343,6 +343,7 @@ qm credits          # chạy không cần browser
 
 - `0` — thành công.
 - `1` — lỗi (chưa đăng nhập, job thất bại, HTTP lỗi, ...). Thân thiện CI.
+- `2` — `qm 3d run --wait` hết thời gian chờ nhưng lần chạy VẪN đang chạy trên server (không phải thất bại) — xem tiếp bằng `qm 3d op <op_id>`, đừng chạy lại lệnh.
 
 ## Agent Skills
 
