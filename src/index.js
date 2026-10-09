@@ -50,7 +50,7 @@ gen_cmd
   .description('Tạo video AI')
   .requiredOption('--prompt <p>', 'Mô tả video')
   .requiredOption('--model <m>', 'Model')
-  .option('--duration <d>', 'Thời lượng (giây)')
+  .option('--duration <d>', 'Thời lượng (giây) — gemini-omni-flash-1-1 chỉ 4/6/8/10 (số lẻ server tự làm tròn lên mốc chẵn)')
   .option('--resolution <r>', 'Độ phân giải (vd 720p, 1080p)')
   .option('--aspect-ratio <r>', 'Tỉ lệ khung')
   .option('--image <i...>', 'Ảnh đầu vào (URL hoặc file local, lặp nhiều lần — max theo model+mode, xem qm models)')

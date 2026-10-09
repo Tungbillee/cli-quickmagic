@@ -44,7 +44,7 @@ async function list(options) {
     console.log('\n* KHÔNG nhận ảnh người upload/từ ngoài (gửi vào sẽ lỗi, không mất credit).');
     console.log('  Muốn có nhân vật với model *: tạo ảnh bằng "qm generate image -m seedream-5.0-pro" ngay trong Quick Magic');
     console.log('  rồi dùng ảnh đó (provider chấp nhận ảnh thuần Seedream 5.0 Pro — đã probe thật 260808).');
-    console.log('  Hoặc dùng model không dấu *: gemini-omni / wan-3-0 / wan-2-7 / seedance 1.x nhận ảnh người trực tiếp.');
+    console.log('  Hoặc dùng model không dấu *: gemini-omni / gemini-omni-flash-1-1 / wan-3-0 / wan-2-7 / seedance 1.x nhận ảnh người trực tiếp.');
   }
   // [Portrait 260819] server bật pass-through → model từng cấm người thật giờ trả real_person_note (không còn dấu *)
   if (is_video && models.some((m) => m.real_person_note)) {
