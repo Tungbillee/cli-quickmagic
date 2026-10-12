@@ -32,13 +32,13 @@ const fashion = run(async (o) => jobHint(await call('POST', '/fashion/images', {
 
 // ── Ảnh ──
 const edit = run(async (image, o) => jobHint(await call('POST', '/edit', { body: { image: await rmi(image), tool: o.tool, model: o.model, style: o.style, client_request_id: o.crid } })));
-// [260825, plans/260825-1344-upscale-studio-hf-clone P04] 1 lệnh CLI = N file = N job (mỗi file 1
+// [260825, upscale studio P04] 1 lệnh CLI = N file = N job (mỗi file 1
 // job/hold riêng, REST /upscale(-video) chỉ nhận 1 file/call). --crid dùng CHUNG y nguyên cho cả vòng
 // lặp sẽ khiến BE coi file 2+ TRÙNG file 1 (idempotency theo client_request_id) → chỉ file đầu có job
 // thật, các file sau lặng lẽ trả về CÙNG job đó (thiếu file, không lỗi rõ ràng) — hậu tố `-${i}` cho
 // mỗi file 1 khoá riêng, vẫn giữ được idempotency khi retry NGUYÊN LỆNH (cùng --crid, cùng thứ tự file).
 //
-// [260826, plans/260826-1200-upscale-video-hf-clone-byteplus-vcube P03] mở rộng ẢNH → VIDEO cùng lệnh:
+// [260826, upscale video P03] mở rộng ẢNH → VIDEO cùng lệnh:
 // --video ép mọi file coi là video; không truyền thì tự nhận theo đuôi .mp4/.mov/.webm (KHÔNG .m4v —
 // media.js/get_upload_url không có mime cho đuôi này). data:video/ hoặc data:image/ (file ≤64KB đã
 // inline) tự nhận theo mime, KHÔNG cần đuôi.

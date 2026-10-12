@@ -24,7 +24,7 @@ trường `QUICKMAGIC_URL` override được, nhưng mặc định là prod — 
 `backend-quick-magic` (repo git riêng, khác workspace) có **227 thay đổi chưa commit**
 (157 file sửa + 70 file mới) — bao gồm nhiều fix/feature liên quan trực tiếp tới CLI:
 MCP tools, dispatcher (unlimited fair dispatcher), Qimi benefit (`qm credits` hiển thị
-`qimi_benefit`), byteplus/hypereal provider swap, và nhiều queue khác.
+`qimi_benefit`), đổi nhà cung cấp model, và nhiều queue khác.
 
 **Trước khi công bố CLI cho người dùng thật trỏ vào prod:**
 1. Review + commit các thay đổi cần thiết trong `backend-quick-magic` (repo riêng của nó).

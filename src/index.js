@@ -135,7 +135,7 @@ program.command('fashion').description('Tạo ảnh thời trang AI')
 program.command('edit <image>').description('Sửa ảnh: restore/beauty/muscle/color_boost (upscale → dùng lệnh `qm upscale`)')
   .requiredOption('--tool <t>').option('--model <m>', 'qimi_2.5|qimi_3', 'qimi_3')
   .option('--style <s...>').option('--crid <id>').action(tools.edit);
-// [260826, plans/260826-1200-upscale-video-hf-clone-byteplus-vcube P03] mở rộng ẢNH → VIDEO cùng lệnh
+// [260826, upscale video P03] mở rộng ẢNH → VIDEO cùng lệnh
 // (giữ nguyên tên arg <image...> — đã pin cứng trong test BE mcp-upscale-wiring.test.js). Video tự
 // nhận theo đuôi .mp4/.mov/.webm (KHÔNG .m4v — media.js/get_upload_url không có mime cho đuôi này),
 // hoặc ép bằng --video khi URL không lộ đuôi (vd link ký chữ ký).
