@@ -1,9 +1,8 @@
 # Quick Magic CLI — Agent Skills
 
 11 Agent Skills that wrap the `quickmagic` / `qm` CLI so a coding agent (Claude
-Code and compatible tools) can drive Quick Magic directly from the terminal —
-mirroring the `npx skills add higgsfield-ai/skills` pattern (`/higgsfield:generate`
-etc.), tailored to Quick Magic's own REST API and CLI.
+Code and compatible tools) can drive Quick Magic directly from the terminal,
+built on Quick Magic's own REST API and CLI.
 
 Each skill is a `skills/<name>/SKILL.md` (frontmatter `name` + `description` —
 the `description` doubles as the router/trigger contract an agent uses to decide
