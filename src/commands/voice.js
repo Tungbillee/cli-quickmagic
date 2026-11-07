@@ -7,6 +7,7 @@ const crypto = require('crypto');
 const { call } = require('../api');
 const { resolveMediaInput } = require('../media');
 const jobs = require('./jobs');
+const { formatCredits, formatRate } = require('../credit-format');
 
 const out = (data) => console.log(JSON.stringify(data, null, 2));
 // [red-team #15] api.js đã gắn err.code từ REST {code,message} → in kèm code để agent rẽ nhánh
@@ -34,8 +35,8 @@ function printTable(headers, rows) {
 }
 
 function printPricing(p) {
-  if (p.billing === 'flat') console.log(`Giá: ${p.credits} credit/lần`);
-  else console.log(`Giá: ${p.credits_per_char} credit/ký tự, tối thiểu ${p.min_charge}`);
+  if (p.billing === 'flat') console.log(`Giá: ${formatCredits(p.credits)} credit/lần`);
+  else console.log(`Giá: ~${formatRate(p.credits_per_char)} credit/ký tự (tổng bài làm tròn lên 0.1), tối thiểu ${formatCredits(p.min_charge)}`);
   console.log(`Trần ký tự: ${p.char_limit}`);
 }
 
@@ -69,7 +70,7 @@ const voicesList = run(async (o) => {
   // qimi_3.5: server builds this hint from its own preset list — print it verbatim instead of hard-coding keys here.
   if (data.style_hint) console.log(data.style_hint);
   if (pricing.billing === 'per_char') {
-    if (data.clone_price != null) console.log(`Giá clone giọng riêng: ${data.clone_price} credit`);
+    if (data.clone_price != null) console.log(`Giá clone giọng riêng: ${formatCredits(data.clone_price)} credit`);
     // [review C2] false có 2 nghĩa: (a) đã dùng suất, (b) chưa có gói trả phí active (BE trả first_free_upsell=true).
     if (data.first_free_available != null) {
       const free_msg = data.first_free_available ? 'còn (giọng #1 = 0 credit)'
@@ -108,7 +109,7 @@ const voicesList = run(async (o) => {
 });
 
 // [red-team #14] auto-crid = hash(bytes file cục bộ | chuỗi URL) + hash(name) — retry vô tình
-// (mất mạng, gõ lại lệnh) không tạo 2 voice/2 hold 2.230cr khi user không tự truyền --crid.
+// (mất mạng, gõ lại lệnh) không tạo 2 voice/2 hold (giá clone là khoản lớn) khi user không tự truyền --crid.
 function autoCrid(audio_ref, name) {
   const is_url = /^https?:\/\//i.test(audio_ref);
   let source = audio_ref;

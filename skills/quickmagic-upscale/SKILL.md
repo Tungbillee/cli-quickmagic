@@ -55,7 +55,8 @@ Video model choice (ask the user if unclear, or default to `standard`):
 Video caps: **300MB / 10 minutes** input. Billing is per second of input,
 rounded up to the next whole second; if that is still below the model
 minimum (`standard`/`seedvr2`: 3s, `pro`/`fps`: 1s) it bills at the minimum
-instead — e.g. a 2s clip on `standard` bills as 3s (30 credits, not 20).
+instead — e.g. a 2s clip on `standard` 720p bills as 3s (about 0.6 credit, not
+0.4). The job total is then rounded up to the next 0.1 credit (minimum 0.1).
 
 ## Before running
 
@@ -71,23 +72,27 @@ per image:
 
 | Model | Credits/image |
 |---|---|
-| `crisp` | 10 |
-| `standard` | 20 |
-| `seedvr2` | 20 |
-| `ultra` | 116 |
+| `crisp` | 0.2 |
+| `standard` | 0.4 |
+| `seedvr2` | 0.4 |
+| `ultra` | 2.1 |
 
 **Video** — credits are **per second of input** (not per file); estimate
 from the clip's duration (`ffprobe`, or ask the user): round the seconds up
 to the next whole second, floor that at the model's minimum (`standard`/
-`seedvr2`: 3s, `pro`/`fps`: 1s), then × the rate below — confirm the result
-before running (do not quote a lower number for clips under the minimum):
+`seedvr2`: 3s, `pro`/`fps`: 1s), then × the rate below, then round the TOTAL
+up to the next 0.1 credit (minimum 0.1) — confirm the result before running
+(do not quote a lower number for clips under the minimum). Example: 10s of
+`standard` 1080p = 10 × 0.18 = 1.8 credits:
 
-| Model | 720p | 1080p | 2k | 4k |
+| Model (credits per second) | 720p | 1080p | 2k | 4k |
 |---|---|---|---|---|
-| `standard` | 10 | 10 | 20 | 39 |
-| `pro` | — (unsupported) | 14 | 28 | 56 |
-| `seedvr2` | 39 | 77 | 96 | 116 |
-| `fps` | 16 (flat, no resolution) | | | |
+| `standard` | 0.18 | 0.18 | 0.36 | 0.702 |
+| `pro` | — (unsupported) | 0.252 | 0.504 | 1.008 |
+| `seedvr2` | 0.702 | 1.386 | 1.728 | 2.088 |
+| `fps` | 0.288 (flat, no resolution) | | | |
+
+These are reference rates (old rates × 0.018); the `credits_held` of the submitted job is the exact charge.
 
 ## Run + track
 

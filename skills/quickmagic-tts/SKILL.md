@@ -38,14 +38,16 @@ text read aloud as audio, or wants a custom cloned voice for future TTS calls.
 | `qimi_5` | credits/character, with a minimum charge | 10,000 | 310 system voices (16 languages) + your own clones |
 | `qimi_5.5` | credits/character (higher quality), with a minimum charge | 10,000 | 310 system voices (16 languages) + your own clones |
 
-Reference only, as of 260927 — **never quote these from memory**. Always run
+Reference only, as of 261107 (after the credit-unit rescale, 1 credit ≈ 1,000 VND
+on the cheapest plan) — **never quote these from memory**. Always run
 `qm voices list --model <m>` and read the `pricing` object from its response:
-roughly `qimi_1.5`/`qimi_2.5` ≈ 2cr/call, `qimi_3` ≈ 4cr/call, `qimi_3.5` ≈
-10cr/call (any length up to 30,000 chars), `qimi_5` ≈ 0.09cr/char,
-`qimi_5.5` ≈ 0.15cr/char (min ~5cr) — rates can change. Per-character models
-count the text **after** your saved pronunciation replacements. Voice cloning
-is a separate, much larger flat charge (~2,230cr) — see "Cloning a custom
-voice" below.
+roughly `qimi_1.5`/`qimi_2.5` ≈ 0.1cr/call, `qimi_3` ≈ 0.1cr/call, `qimi_3.5` ≈
+0.2cr/call (any length up to 30,000 chars), `qimi_5` ≈ 0.0016cr/char,
+`qimi_5.5` ≈ 0.0027cr/char (min ~0.1cr) — rates can change. Credits are
+decimals: the job total is rounded up to the next 0.1 credit (minimum 0.1), so a
+short text still costs 0.1cr. Per-character models count the text **after** your
+saved pronunciation replacements. Voice cloning is a separate, much larger flat
+charge (~40.2cr) — see "Cloning a custom voice" below.
 
 ## Pick a voice
 

@@ -16,7 +16,7 @@ Wraps `qm cutout`. Three operations — pick the right one:
 |---|---|---|
 | `from_ref` (default) | Keep the subject from 1-5 reference images, isolate it on a **transparent background** | `--ref` (1-5) |
 | `generate` | Pure text-to-image, no reference | `--prompt` (required) |
-| `remix_describe` | Freely reinterpret **only the first** reference image per your prompt (+3 credit vision fee); background stays only if `--no-transparent-bg` | `--ref` (uses only `--ref[0]`), `--prompt` optional |
+| `remix_describe` | Freely reinterpret **only the first** reference image per your prompt (+~0.05 credit vision fee, folded into the job total); background stays only if `--no-transparent-bg` | `--ref` (uses only `--ref[0]`), `--prompt` optional |
 
 ## Command
 
@@ -44,8 +44,9 @@ qm cutout [--operation generate|from_ref|remix_describe] [--ref <r...>] [--promp
 ## Quote, then confirm
 
 Estimated cost = model credit price × `--n`. State it and get confirmation
-before running (this holds credit immediately), e.g. "nano-banana-2, 3cr/ảnh ×
-2 ảnh = 6cr, số dư Ycr — xác nhận?".
+before running (this holds credit immediately). Credits are decimals and the job
+total is rounded up to 0.1 credit (minimum 0.1), e.g. "nano-banana-2, 0.1cr/ảnh ×
+2 ảnh = 0.2cr, số dư Ycr — xác nhận?".
 
 ## Run + track
 

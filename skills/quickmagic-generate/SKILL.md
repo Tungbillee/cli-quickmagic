@@ -53,9 +53,10 @@ explicit reason and refunds the credit → try another photo).
 Compute an estimate: `credit (from models list) × --n` for images, or the video
 model's listed `credit` (base duration/resolution — actual price can vary by
 `--duration`/`--resolution`, shown precisely only after submission via
-`credits_held`). Present it to the user, e.g.:
+`credits_held`). Credits are decimals: every job price is rounded up to the next
+0.1 credit (minimum 0.1), and each image is its own job. Present it to the user, e.g.:
 
-> "Model qimi_3: 10cr/ảnh × 4 ảnh = 40cr. Số dư hiện tại: 120cr. Xác nhận tạo?"
+> "Model qimi_3: 0.2cr/ảnh × 4 ảnh = 0.8cr. Số dư hiện tại: 2.16cr. Xác nhận tạo?"
 
 Do not run `generate image`/`generate video` until the user confirms — submitting
 holds credit immediately.

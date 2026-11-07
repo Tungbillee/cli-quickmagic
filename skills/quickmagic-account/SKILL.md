@@ -43,6 +43,11 @@ qm credits
 Prints `Số dư (balance)`, `Tạm giữ (held)`, `Gói (plan)`, and — only when active —
 `Qimi miễn phí: còn N ngày (chế độ: ...)`.
 
+Credit amounts are decimals (1 credit ≈ 1,000 VND on the cheapest plan; a job price
+is a multiple of 0.1, minimum 0.1). Balances print with up to 2 decimals, cut off
+(never rounded up) — a balance shown as `0.09` really is below the `0.1` price of a
+smallest job. Quote amounts exactly as printed, with a `.` decimal point.
+
 - This benefit gives free `qimi_3`/`qimi_2.5` image generations for a limited
   window (Business/Enterprise plans).
 - Mode **"Miễn phí — 1 ảnh/lần"**: one image per call is free; requesting more than
@@ -129,7 +134,7 @@ rather than resubmitting immediately.
 | CLI message (stderr, exit 1) | Meaning | What to do |
 |---|---|---|
 | `Chưa đăng nhập. Chạy: quickmagic auth login` | no local/env token | tell the user to run `qm auth login` |
-| `Không đủ credit: cần Xcr, hiện có Ycr, thiếu Zcr. Vui lòng nạp thêm để tiếp tục.` | `insufficient_credit` (HTTP 402) | state the exact shortfall (Z) and suggest topping up at https://quickmagic.vn/pricing |
+| `Không đủ credit: cần Xcr, hiện có Ycr, thiếu Zcr. Vui lòng nạp thêm để tiếp tục.` | `insufficient_credit` (HTTP 402) | state the exact shortfall (Z, may have decimals) and suggest topping up at https://quickmagic.vn/pricing |
 | `Tài khoản đang âm N credit. Vui lòng nạp thêm để tiếp tục sử dụng.` | `negative_balance` (HTTP 402) | same — must top up before any new paid job |
 | `Bạn đã có N job đang xử lý (giới hạn M job đồng thời cho gói ...)` | `concurrent_limit` (HTTP 429) | wait for an in-flight job to finish (`jobs wait`) before submitting more |
 | `Bạn thao tác quá nhanh. Chờ Ns.` | `rate_limited` (HTTP 429) | wait N seconds, then retry |

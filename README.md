@@ -151,7 +151,7 @@ Ghi chú chung trước khi xem bảng:
 | `qm hook video --preset <id>` | Video hài quảng cáo từ ảnh nhân vật + sản phẩm | Có |
 | `qm marketing modes` | Liệt kê mode + bảng giá theo duration | — |
 | `qm marketing video --mode <id>` | Video marketing (giá theo duration) | Có |
-| `qm analyze <video_url>` | Phân tích video quảng cáo đối thủ → kịch bản | Có (15cr) |
+| `qm analyze <video_url>` | Phân tích video quảng cáo đối thủ → kịch bản | Có (0.3 credit) |
 
 ### Audio / Video dài
 

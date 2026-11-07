@@ -2,6 +2,7 @@
 // upload presigned (>64KB) hoặc base64 nhỏ — xem src/media.js [260722].
 const api = require('../api');
 const jobs = require('./jobs');
+const { formatCredits } = require('../credit-format');
 const { resolveMediaInput, resolveMediaInputs } = require('../media');
 
 // generate image — POST /public/v1/images.
@@ -16,7 +17,7 @@ async function image(options) {
   const data = await api.call('POST', '/images', { body });
   const job_ids = (data.jobs || []).map((j) => j.job_id);
   console.log(`Đã tạo ${job_ids.length} job ảnh: ${job_ids.join(', ')}`);
-  console.log(`Credit tạm giữ: ${data.credits_held ?? '?'} · Số dư: ${data.balance ?? '?'}`);
+  console.log(`Credit tạm giữ: ${data.credits_held == null ? '?' : formatCredits(data.credits_held)} · Số dư: ${data.balance == null ? '?' : formatCredits(data.balance)}`);
 
   if (options.wait) await jobs.waitAll(job_ids, options.out);
 }
@@ -45,7 +46,7 @@ async function video(options) {
   const data = await api.call('POST', '/videos', { body });
   const job_id = data.job_id;
   console.log(`Đã tạo job video: ${job_id}`);
-  console.log(`Credit tạm giữ: ${data.credits_held ?? '?'} · Số dư: ${data.balance ?? '?'}`);
+  console.log(`Credit tạm giữ: ${data.credits_held == null ? '?' : formatCredits(data.credits_held)} · Số dư: ${data.balance == null ? '?' : formatCredits(data.balance)}`);
 
   if (options.wait) await jobs.waitAll([job_id], options.out);
 }

@@ -108,7 +108,7 @@ program.command('import <url>').description('Nhập ảnh/video từ POST TikTok
   .option('--media <m>', 'image | video', 'image').option('--max <n>', 'Số ảnh tối đa').action(tools.importSocial);
 program.command('assets <kind>').description('Liệt kê tài sản: products | outfits | kols')
   .option('--limit <n>', 'Giới hạn').action(tools.assets);
-program.command('analyze <video_url>').description('Phân tích video quảng cáo → kịch bản (15cr)')
+program.command('analyze <video_url>').description('Phân tích video quảng cáo → kịch bản (0.3 credit)')
   .option('--product-id <id>', 'Sản phẩm trong tủ').action(tools.analyze);
 
 // ── Marketing ──────────────────────────────────────────────────────────────────

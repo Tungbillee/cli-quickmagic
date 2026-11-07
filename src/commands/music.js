@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { call } = require('../api');
 const jobs = require('./jobs');
+const { formatCredits } = require('../credit-format');
 
 const out = (data) => console.log(JSON.stringify(data, null, 2));
 // [mirror voice.js] api.js đã gắn err.code từ REST {code,message} → in kèm code để rẽ nhánh (retryable
@@ -23,7 +24,7 @@ function printTable(headers, rows) {
 }
 
 function priceLabel(m) {
-  return m.free_launch ? 'Miễn phí (giai đoạn ra mắt)' : `${m.credit} credit/bài`;
+  return m.free_launch ? 'Miễn phí (giai đoạn ra mắt)' : `${formatCredits(m.credit)} credit/bài`;
 }
 
 // ── music models ──

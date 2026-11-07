@@ -2,6 +2,7 @@
 // video). `qm models list --type music` dùng chung hàm này; bảng ĐẦY ĐỦ hơn (giá/ETA/hàng chờ) nằm
 // ở `qm music models` (commands/music.js) — dành cho ai đã quen `qm models list` chung 1 lệnh.
 const api = require('../api');
+const { formatCredits } = require('../credit-format');
 
 // Cột IMAGES (video): "ref 9* · frames 2" — theo image_max_by_mode; * = mode cấm ảnh người thật.
 function imagesCell(m) {
@@ -27,7 +28,7 @@ async function list(options) {
   const rows = models.map((m) => ({
     key: String(m.key || ''),
     label: String(m.label || ''),
-    credit: String(m.credit ?? m.credit_cost ?? m.credit_per_image ?? ''),
+    credit: (m.credit ?? m.credit_cost ?? m.credit_per_image) == null ? '' : formatCredits(m.credit ?? m.credit_cost ?? m.credit_per_image),
     images: is_video ? imagesCell(m) : '',
   }));
   const key_w = Math.max(3, ...rows.map((r) => r.key.length));

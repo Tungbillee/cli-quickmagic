@@ -2,6 +2,7 @@
 const oauth = require('../oauth');
 const config = require('../config');
 const api = require('../api');
+const { formatCredits } = require('../credit-format');
 
 // Đăng nhập qua browser (OAuth PKCE). Cờ --api-url ghi đè URL gốc.
 async function login(options) {
@@ -24,7 +25,7 @@ async function status() {
   }
   const data = await api.call('GET', '/credits');
   if (data && data.email) console.log(`Email:   ${data.email}`);
-  console.log(`Số dư:   ${(data && data.balance) ?? 0} credit`);
+  console.log(`Số dư:   ${formatCredits(data && data.balance)} credit`);
   if (data && data.plan) console.log(`Gói:     ${data.plan}`);
   console.log(`API URL: ${creds.api_url || config.DEFAULT_API_URL}`);
 }

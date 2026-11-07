@@ -54,9 +54,11 @@ together → `composite`. Multiple types can be combined in one call.
 ## Quote, then confirm
 
 Total images = `--count` × number of `--types` values. Estimated cost = that
-total × the model's `credit` from `qm models list --type image`. State it, e.g.
-"qimi_2.5, 4 ảnh × 2 loại (product+poster) = 8 ảnh × 8cr = 64cr, số dư hiện tại
-Ycr — xác nhận tạo?" before running.
+total × the model's `credit` from `qm models list --type image`. Credits are
+decimals and the whole job is priced as one total rounded up to 0.1 credit, so
+this estimate is a ceiling — the exact amount is `credits_held` after submission.
+State it, e.g. "qimi_2.5, 4 ảnh × 2 loại (product+poster) = 8 ảnh × 0.2cr ≈ 1.6cr
+(tối đa), số dư hiện tại Ycr — xác nhận tạo?" before running.
 
 ## Run + track
 
