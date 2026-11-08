@@ -88,11 +88,11 @@ up to the next 0.1 credit (minimum 0.1) — confirm the result before running
 | Model (credits per second) | 720p | 1080p | 2k | 4k |
 |---|---|---|---|---|
 | `standard` | 0.18 | 0.18 | 0.36 | 0.702 |
-| `pro` | — (unsupported) | 0.252 | 0.504 | 1.008 |
+| `pro` | — (unsupported) | 0.234 | 0.45 | 0.882 |
 | `seedvr2` | 0.702 | 1.386 | 1.728 | 2.088 |
 | `fps` | 0.288 (flat, no resolution) | | | |
 
-These are reference rates (old rates × 0.018); the `credits_held` of the submitted job is the exact charge.
+These are reference rates as of 261108 (measured from the live price list; rates can change); the `credits_held` of the submitted job is the exact charge.
 
 ## Run + track
 
